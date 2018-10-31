@@ -204,7 +204,7 @@ def message(request):
 
 
     elif clickedButton == '등/하굣길 설정하기':
-        if is_busstn_setting == 0:
+        if is_busstn_setting in [0, 1]:
             is_busstn_setting = 1
             if len(bus_stn_setting_list) != 0:
                 bus_stn_setting_list = []
