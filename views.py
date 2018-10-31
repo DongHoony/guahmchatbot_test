@@ -213,7 +213,19 @@ def message(request):
             if ctime - setting_task_time > 15:
                 is_busstn_setting = 0
                 print('Time elasped more than 15 secs setting tasks. resetting...')
-
+            else:
+                return JsonResponse(
+                    {
+                        'message': {
+                            'text': '다른 사람이 작업 중입니다. 잠시 후 다시 시도해 주세요.'
+                        },
+                        'keyboard': {
+                            'type': 'buttons',
+                            'buttons': ['초기화면']
+                        }
+                    }
+                )
+            
         if is_busstn_setting == 0:
 
             setting_task_time = int(t.time())
@@ -234,18 +246,7 @@ def message(request):
 
 
 
-        else:
-            return JsonResponse(
-                {
-                    'message': {
-                        'text': '다른 사람이 작업 중입니다. 잠시 후 다시 시도해 주세요.'
-                    },
-                    'keyboard': {
-                        'type': 'buttons',
-                        'buttons': ['초기화면']
-                    }
-                }
-            )
+        
 
     elif clickedButton == '동작13 (설정)':
         bus_stn_setting_list.append(13)
