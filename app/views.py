@@ -114,7 +114,7 @@ def foodie(n):
             td1[i] = str(td1[i])
             td2[i] = str(td2[i])
             tempdish1 = td1[i].replace('<td class="textC">', '').replace('<br/>', '\n', -1).replace('</td>', '')
-            dish1 = ''
+            dish1 = '- '
             for _ in tempdish1:
                 if _ in '1234567890.':
                     continue
@@ -122,7 +122,7 @@ def foodie(n):
                     dish1 += _
 
             tempdish2 = td2[i].replace('<td class="textC">', '').replace('<br/>', '\n', -1).replace('</td>', '')
-            dish2 = ''
+            dish2 = '- '
             for _ in tempdish2:
                 if _ in '1234567890.':
                     continue
@@ -159,6 +159,8 @@ def message(request):
     json_str = (request.body).decode('utf-8')
     received_json = json.loads(json_str)
     clickedButton = received_json['content']
+    user_key = received_json['user_key']
+    print(user_key)
 
     if clickedButton == '초기화면':
         return JsonResponse(
