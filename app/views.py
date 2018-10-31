@@ -283,10 +283,10 @@ def message(request):
         c.execute("INSERT INTO BusService VALUES (?, ?, ?, ?)",(user_key, bus_stn_setting_list[0], bus_stn_setting_list[1], bus_stn_setting_list[2]))
         bus_db.commit()
 
-        c.execute("SELECT * FROM BusService WHERE user_key = ?",user_key)
+        c.execute("SELECT * FROM BusService WHERE user_key = (?)",(user_key))
         print(c.fetchall())
-        
-        
+
+
         is_busstn_setting = 0
         return JsonResponse(
             {
