@@ -183,9 +183,9 @@ def message(request):
 
     is_busstn_setting = 0
     bus_stn_setting_list = []
-    c = bus_db.cursor()
-    c.execute("SELECT * FROM BusService WHERE user_key = ?",user_key)
-    print(c.fetchall())
+#    c = bus_db.cursor()
+#    c.execute("SELECT * FROM BusService WHERE user_key = ?",user_key)
+#    print(c.fetchall())
 
 
     if clickedButton == '초기화면':
