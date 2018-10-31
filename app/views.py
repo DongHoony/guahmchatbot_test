@@ -207,7 +207,7 @@ def message(request):
         c.execute("SELECT * FROM BusService WHERE user_key = ?", (user_key, ))
         school = c.fetchone()
         if school[1] == 13:
-            n = [0, 1, 1, 2][schoolBusStop13.index(school[2])]
+            n = [0, 1, 1, 2][numBusStop13.index(school[2])]
             busList = bus(n,school[2],13)
             bus01, bus02, tayo1, tayo2 = map(str, busList)
             return JsonResponse(
@@ -232,7 +232,7 @@ def message(request):
                 }
             )
         else:
-            n = [5, 1, 7, 2, 0][schoolBusStop5513.index(school[2])]
+            n = [5, 1, 7, 2, 0][numBusStop5513.index(school[2])]
             bus(n,school[2],5513)
             busList = bus(n, school[2], 5513)
             bus01, bus02 = map(str, busList)
@@ -260,7 +260,6 @@ def message(request):
         c.execute("SELECT * FROM BusService WHERE user_key = ?", (user_key, ))
         school = c.fetchone()
         if school[1] == 13:
-            busStop = ['21244', '21243'][homeBusStop13.index(school[3])]
             busList = bus(1, school[3], 13)
             bus01, bus02, tayo1, tayo2 = map(str, busList)
             return JsonResponse(
@@ -284,7 +283,6 @@ def message(request):
                 }
             )
         else:
-            busStop = ['21244', '21243'][homeBusStop5513.index(school[3])]
             busList = bus(2, school[3], 5513)
             bus01, bus02 = map(str, busList)
             return JsonResponse(
