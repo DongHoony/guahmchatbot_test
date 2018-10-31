@@ -230,7 +230,7 @@ def message(request):
             {
                 'message': {
                     'text': '{}의 석식\n\n{}'.format('오늘' if tmr == 0 else '내일',
-                                                  lunchfoods[day] if day < 5 else '메뉴가 없습니다.')
+                                                  dinnerfoods[day] if day < 5 else '메뉴가 없습니다.')
                 },
                 'keyboard': {
                     'type': 'buttons',
