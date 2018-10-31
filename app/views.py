@@ -82,7 +82,7 @@ def foodie(n):
     # 2018.10.29 형식
     ymd = s[0].split('=')[1] + '.' + s[1].split('=')[1] + '.' + s[2].split('=')[1]
     currenttime = int(t.time())
-    dayList = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
+    dayList = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
     # 일요일, 새로고침되지 않았을 때 실행 (다른 방법 필요할듯, 업데이트 날짜 가져와서 7일 내이면 넘기고, 아니면 업데이트 하는 식으로)
     # food함수 내에는 고쳐질 게 많다. 토요일, 일요일에 리턴하는 0값을 처리해야 함.
@@ -138,9 +138,6 @@ def foodie(n):
     if n == 'Sat' and isRefreshed == 1:
         isRefreshed = 0
 
-    if n in ['Sat', 'Sun']:
-        return 0
-
     return dayList.index(n)
 
 
@@ -180,7 +177,7 @@ def message(request):
         return JsonResponse(
             {
                 'message': {
-                    'text': '중 / 석식을 선택해 주세요.'
+                    'text': '중 / 석식을 선택해 주세요.\n매일 오후 5시 이후에는 다음날 급식을 안내합니다.'
                 },
                 'keyboard': {
                     'type': 'buttons',
@@ -202,13 +199,18 @@ def message(request):
             }
         )
 
-
     elif clickedButton == '중식':
+        tmr = 0
         day = foodie(str(t.ctime())[:3])
+
+        if int(str(t.ctime())[11:13]) > 16: # 5시가 지나면 내일 점심을 보여준다
+            tmr = 1
+            day += 1
         return JsonResponse(
             {
                 'message': {
-                    'text': '오늘의 중식\n\n{}'.format(lunchfoods[day] if day != 0 else '메뉴가 없습니다.')
+                    'text': '{}의 중식\n\n{}'.format('오늘' if tmr == 0 else '내일',
+                                                  lunchfoods[day] if day < 5 else '메뉴가 없습니다.')
                 },
                 'keyboard': {
                     'type': 'buttons',
@@ -218,11 +220,17 @@ def message(request):
         )
 
     elif clickedButton == '석식':
+        tmr = 0
         day = foodie(str(t.ctime())[:3])
+
+        if int(str(t.ctime())[11:13]) > 16:  # 5시가 지나면 내일 점심을 보여준다
+            tmr = 1
+            day += 1
         return JsonResponse(
             {
                 'message': {
-                    'text': '오늘의 석식\n\n{}'.format(dinnerfoods[day] if day != 0 else '메뉴가 없습니다.')
+                    'text': '{}의 석식\n\n{}'.format('오늘' if tmr == 0 else '내일',
+                                                  lunchfoods[day] if day < 5 else '메뉴가 없습니다.')
                 },
                 'keyboard': {
                     'type': 'buttons',
