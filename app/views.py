@@ -197,7 +197,7 @@ def message(request):
                 },
                 'keyboard': {
                     'type': 'buttons',
-                    'buttons': ['내 등굣길', '내 하굣길', '구암고 급식안내', '등하교 버스안내', '등/하굣길 설정하기']
+                    'buttons': ['구암고 급식안내', '내 등굣길', '내 하굣길', '등하교 버스안내', '등/하굣길 설정하기']
                 }
             }
         )
@@ -227,7 +227,7 @@ def message(request):
                     },
                     'keyboard': {
                         'type': 'buttons',
-                        'buttons': ['구암고 급식안내', '등하교 버스안내']
+                        'buttons': ['구암고 급식안내', '내 등굣길', '내 하굣길', '등하교 버스안내', '등/하굣길 설정하기']
                     }
                 }
             )
@@ -248,7 +248,7 @@ def message(request):
                     },
                     'keyboard': {
                         'type': 'buttons',
-                        'buttons': ['구암고 급식안내', '등하교 버스안내']
+                        'buttons': ['구암고 급식안내', '내 등굣길', '내 하굣길', '등하교 버스안내', '등/하굣길 설정하기']
                     }
                 }
             )
@@ -278,7 +278,7 @@ def message(request):
                     },
                     'keyboard': {
                         'type': 'buttons',
-                        'buttons': ['구암고 급식안내', '등하교 버스안내']
+                        'buttons': ['구암고 급식안내', '내 등굣길', '내 하굣길', '등하교 버스안내', '등/하굣길 설정하기']
                     }
                 }
             )
@@ -298,7 +298,7 @@ def message(request):
                     },
                     'keyboard': {
                         'type': 'buttons',
-                        'buttons': ['구암고 급식안내', '등하교 버스안내']
+                        'buttons': ['구암고 급식안내', '내 등굣길', '내 하굣길', '등하교 버스안내', '등/하굣길 설정하기']
                     }
                 }
             )
@@ -463,7 +463,7 @@ def message(request):
                 },
                 'keyboard': {
                     'type': 'buttons',
-                    'buttons': ['구암고 급식안내', '등하교 버스안내']
+                    'buttons': ['구암고 급식안내', '내 등굣길', '내 하굣길', '등하교 버스안내', '등/하굣길 설정하기']
                 }
             }
         )
@@ -483,7 +483,7 @@ def message(request):
                 },
                 'keyboard': {
                     'type': 'buttons',
-                    'buttons': ['구암고 급식안내', '등하교 버스안내']
+                    'buttons': ['구암고 급식안내', '내 등굣길', '내 하굣길', '등하교 버스안내', '등/하굣길 설정하기']
                 }
             }
         )
@@ -530,7 +530,7 @@ def message(request):
                 },
                 'keyboard': {
                     'type': 'buttons',
-                    'buttons': ['구암고 급식안내', '등하교 버스안내']
+                    'buttons': ['구암고 급식안내', '내 등굣길', '내 하굣길', '등하교 버스안내', '등/하굣길 설정하기']
                 }
             }
         )
@@ -550,7 +550,7 @@ def message(request):
                 },
                 'keyboard': {
                     'type': 'buttons',
-                    'buttons': ['구암고 급식안내', '등하교 버스안내']
+                    'buttons': ['구암고 급식안내', '내 등굣길', '내 하굣길', '등하교 버스안내', '등/하굣길 설정하기']
                 }
             }
         )
@@ -596,7 +596,7 @@ def message(request):
                 },
                 'keyboard': {
                     'type': 'buttons',
-                    'buttons': ['구암고 급식안내', '등하교 버스안내']
+                    'buttons': ['구암고 급식안내', '내 등굣길', '내 하굣길', '등하교 버스안내', '등/하굣길 설정하기']
                 }
             }
         )
@@ -615,7 +615,7 @@ def message(request):
                 },
                 'keyboard': {
                     'type': 'buttons',
-                    'buttons': ['구암고 급식안내', '등하교 버스안내']
+                    'buttons': ['구암고 급식안내', '내 등굣길', '내 하굣길', '등하교 버스안내', '등/하굣길 설정하기']
                 }
             }
         )
