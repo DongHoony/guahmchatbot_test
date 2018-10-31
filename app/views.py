@@ -180,7 +180,7 @@ def message(request):
     json_str = (request.body).decode('utf-8')
     received_json = json.loads(json_str)
     clickedButton = received_json['content']
-    user_key = received_json['user_key']
+    user_key = str(received_json['user_key'])
     print(user_key)
 
 
