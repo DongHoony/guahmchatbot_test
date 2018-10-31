@@ -202,6 +202,110 @@ def message(request):
             }
         )
 
+    elif clickedButton == '내 등굣길':
+        c = bus_db.cursor()
+        c.execute("SELECT * FROM BusService WHERE user_key = ?", (user_key, ))
+        school = c.fetchone()
+        if school[1] == 13:
+            n = [0, 1, 1, 2][schoolBusStop13.index(school[2])]
+            busList = bus(n,school[2],13)
+            bus01, bus02, tayo1, tayo2 = map(str, busList)
+            return JsonResponse(
+                {
+                    'message': {
+                        'text': '---{}({})---\n\n이번 버스 : {}{}\n{}\n\n다음 버스 : {}{}\n{}'.format(clickedButton, school[2],
+                                                                                              bus01,
+                                                                                              '도착 예정' if bus01 not in [
+                                                                                                  '출발대기',
+                                                                                                  '운행종료'] else '',
+                                                                                              tayo1, bus02,
+                                                                                              '도착 예정' if bus02 not in [
+                                                                                                  '출발대기',
+                                                                                                  '운행종료'] else '',
+                                                                                              tayo2)
+
+                    },
+                    'keyboard': {
+                        'type': 'buttons',
+                        'buttons': ['구암고 급식안내', '등하교 버스안내']
+                    }
+                }
+            )
+        else:
+            n = [5, 1, 7, 2, 0][schoolBusStop5513.index(school[2])]
+            bus(n,school[2],5513)
+            busList = bus(n, school[2], 5513)
+            bus01, bus02 = map(str, busList)
+            return JsonResponse(
+                {
+                    'message': {
+                        'text': '---{}({})---\n\n이번 버스 : {}{}\n\n다음 버스 : {}{}\n'.format(clickedButton, school[2], bus01,
+                                                                                        '도착 예정' if bus01 not in ['출발대기',
+                                                                                                                 '운행종료'] else '',
+                                                                                        bus02,
+                                                                                        '도착 예정' if bus02 not in ['출발대기',
+                                                                                                                 '운행종료'] else '')
+                    },
+                    'keyboard': {
+                        'type': 'buttons',
+                        'buttons': ['구암고 급식안내', '등하교 버스안내']
+                    }
+                }
+            )
+
+
+
+    elif clickedButton == '내 하굣길':
+        c = bus_db.cursor()
+        c.execute("SELECT * FROM BusService WHERE user_key = ?", (user_key, ))
+        school = c.fetchone()
+        if school[1] == 13:
+            busStop = ['21244', '21243'][homeBusStop13.index(school[3])]
+            busList = bus(1, school[3], 13)
+            bus01, bus02, tayo1, tayo2 = map(str, busList)
+            return JsonResponse(
+                {
+                    'message': {
+                        'text': '---{}({})---\n\n이번 버스 : {}{}\n{}\n\n다음 버스 : {}{}\n{}'.format(clickedButton, school[3],
+                                                                                              bus01,
+                                                                                              '도착 예정' if bus01 not in [
+                                                                                                  '출발대기',
+                                                                                                  '운행종료'] else '',
+                                                                                              tayo1, bus02,
+                                                                                              '도착 예정' if bus02 not in [
+                                                                                                  '출발대기',
+                                                                                                  '운행종료'] else '',
+                                                                                              tayo2)
+                    },
+                    'keyboard': {
+                        'type': 'buttons',
+                        'buttons': ['구암고 급식안내', '등하교 버스안내']
+                    }
+                }
+            )
+        else:
+            busStop = ['21244', '21243'][homeBusStop5513.index(school[3])]
+            busList = bus(2, school[3], 5513)
+            bus01, bus02 = map(str, busList)
+            return JsonResponse(
+                {
+                    'message': {
+                        'text': '---{}({})---\n\n이번 버스 : {}{}\n\n다음 버스 : {}{}\n'.format(clickedButton, school[3], bus01,
+                                                                                        '도착 예정' if bus01 not in ['출발대기',
+                                                                                                                 '운행종료'] else '',
+                                                                                        bus02,
+                                                                                        '도착 예정' if bus02 not in ['출발대기',
+                                                                                                                 '운행종료'] else '')
+
+                    },
+                    'keyboard': {
+                        'type': 'buttons',
+                        'buttons': ['구암고 급식안내', '등하교 버스안내']
+                    }
+                }
+            )
+
+
 
 
     elif clickedButton == '등/하굣길 설정하기':
@@ -289,7 +393,7 @@ def message(request):
         bus_db.commit()
 
         c.execute("SELECT * FROM BusService WHERE user_key = ?", (bus_stn_setting_list[0],))
-        print(c.fetchone())
+        print(c.fetchall())
 
 
         is_busstn_setting = 0
