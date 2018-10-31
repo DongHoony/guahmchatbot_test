@@ -6,6 +6,12 @@ import json
 import time as t
 import sqlite3
 
+# from django.shortcuts import render
+# import sys
+# import io
+# sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
+# sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
+
 bus_db = sqlite3.connect('bus_key.db',check_same_thread=False)
 
 try:
@@ -18,12 +24,6 @@ try:
 except sqlite3.OperationalError:
     print("Table already exists, Skip making table...")
 
-# from django.shortcuts import render
-# import sys
-# import io
-# sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
-# sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
-
 # BusStops, to School
 schoolBusStop13 = ['벽산아파트', '약수맨션', '노량진역', '대방역2번출구앞']
 schoolBusStop5513 = ['관악구청', '서울대입구', '봉천사거리, 봉천중앙시장', '봉현초등학교', '벽산블루밍벽산아파트303동앞']
@@ -32,12 +32,14 @@ schoolBusStop5513 = ['관악구청', '서울대입구', '봉천사거리, 봉천
 homeBusStop13 = ['관악드림타운북문 방면 (동작13)', '벽산아파트 방면 (동작13)']
 homeBusStop5513 = ['관악드림타운북문 방면 (5513)', '벽산아파트 방면 (5513)']
 
+# BusStop values, to School
 numBusStop13 = ['21910', '20891', '20867', '20834']
 numBusStop5513 = ['21130', '21252', '21131', '21236', '21247']
 
 # Setting lines
 setting13 = ['벽산아파트 (설정)', '약수맨션 (설정)', '노량진역 (설정)', '대방역2번출구앞 (설정)']
 setting5513 = ['관악구청 (설정)', '서울대입구 (설정)', '봉천사거리 (설정)' , '봉천중앙시장 (설정)', '봉현초등학교 (설정)', '벽산블루밍벽산아파트303동앞 (설정)']
+
 # Meal table, index(0-4) => Mon-Fri
 lunchfoods = []
 dinnerfoods = []
@@ -93,7 +95,7 @@ updatedtime = 0
 setting_task_time = 0
 
 def foodie(n):
-    global isRefreshed, updatedtime
+    global isRefreshed, updatedtime, lunchfoods, dinnerfoods
     print(isRefreshed)
 
     s = list(str(t.localtime()).replace('time.struct_time(', '').replace(')', '').split(', '))
@@ -150,6 +152,9 @@ def foodie(n):
 
             lunchfoods.append(dish1)
             dinnerfoods.append(dish2)
+            lunchfoods += ['메뉴가 없습니다.']*2
+            dinnerfoods += ['메뉴가 없습니다.']*2
+
         updatedtime = int(t.time())
         isRefreshed = 1
 
@@ -175,7 +180,6 @@ def keyboard(request):
 
 @csrf_exempt
 def message(request):
-    global setting_task_time
 
     json_str = (request.body).decode('utf-8')
     received_json = json.loads(json_str)
@@ -183,7 +187,6 @@ def message(request):
     user_key = received_json['user_key']
     print(user_key)
 
-    is_busstn_setting = 0
     bus_stn_setting_list = []
     c = bus_db.cursor()
     c.execute("SELECT * FROM BusService WHERE user_key = ?",user_key)
@@ -207,46 +210,20 @@ def message(request):
 
     elif clickedButton == '등/하굣길 설정하기':
 
-        if is_busstn_setting == 1:
-            ctime = int(t.time())
-            print(ctime - setting_task_time)
-            if ctime - setting_task_time > 15:
-                is_busstn_setting = 0
-                print('Time elasped more than 15 secs setting tasks. resetting...')
-            else:
-                return JsonResponse(
-                    {
-                        'message': {
-                            'text': '다른 사람이 작업 중입니다. 잠시 후 다시 시도해 주세요.'
-                        },
-                        'keyboard': {
-                            'type': 'buttons',
-                            'buttons': ['초기화면']
-                        }
-                    }
-                )
-            
-        if is_busstn_setting == 0:
-
-            setting_task_time = int(t.time())
-            is_busstn_setting = 1
-            if len(bus_stn_setting_list) != 0:
-                bus_stn_setting_list = []
-            return JsonResponse(
-                {
-                    'message': {
-                        'text': 'Step 1 / 3: 버스를 선택해 주세요.'
-                    },
-                    'keyboard': {
-                        'type': 'buttons',
-                        'buttons': ['동작13 (설정)', '5513 (설정)']
-                    }
+        if len(bus_stn_setting_list) != 0:
+            bus_stn_setting_list = []
+            print("Setting list is not empty, Cleaning up...")
+        return JsonResponse(
+            {
+                'message': {
+                    'text': 'Step 1 / 3: 버스를 선택해 주세요.'
+                },
+                'keyboard': {
+                    'type': 'buttons',
+                    'buttons': ['동작13 (설정)', '5513 (설정)']
                 }
-            )
-
-
-
-        
+            }
+        )
 
     elif clickedButton == '동작13 (설정)':
         bus_stn_setting_list.append(13)
@@ -276,7 +253,6 @@ def message(request):
             }
         )
 
-
     elif clickedButton in setting13:
         bus_stn_setting_list.append(numBusStop13[setting13.index(clickedButton)])
         return JsonResponse(
@@ -297,7 +273,6 @@ def message(request):
         c.execute("INSERT INTO BusService VALUES (?, ?, ?, ?)",(user_key, bus_stn_setting_list[0], bus_stn_setting_list[1], bus_stn_setting_list[2]))
         bus_db.commit()
         bus_db.close()
-        is_busstn_setting = 0
         return JsonResponse(
             {
                 'message': {
@@ -309,7 +284,6 @@ def message(request):
                 }
             }
         )
-
 
     elif clickedButton in setting5513:
         bus_stn_setting_list.append(numBusStop5513[setting5513.index(clickedButton)])
@@ -351,6 +325,27 @@ def message(request):
             }
         )
 
+    elif clickedButton in ['중식', '석식']:
+        tmr = 0
+        day = foodie(str(t.ctime())[:3])
+
+        if int(str(t.ctime())[11:13]) > 16:  # 5시가 지나면 내일 밥을 보여준다
+            tmr = 1
+            day += 1
+        return JsonResponse(
+            {
+                'message': {
+                    'text': '{}의 {}\n\n{}'.format('오늘' if tmr == 0 else '내일',
+                                                  lunchfoods[day] if clickedButton == '중식' else dinnerfoods[day])
+                },
+                'keyboard': {
+                    'type': 'buttons',
+                    'buttons': ['구암고 급식안내', '등하교 버스안내']
+                }
+            }
+        )
+
+"""
     elif clickedButton == '중식':
         tmr = 0
         day = foodie(str(t.ctime())[:3])
@@ -390,7 +385,7 @@ def message(request):
                 }
             }
         )
-
+"""
     elif clickedButton == '5513 - 등교':
         return JsonResponse(
             {
