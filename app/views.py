@@ -266,13 +266,9 @@ def message(request):
         return JsonResponse(
             {
                 'message': {
-                    'text': '---{}---\n\n이번 버스 : {}{}\n{}\n\n다음 버스 : {}{}\n{}'.format(busStop, bus01,
-                                                                                      ' 도착 예정' if bus01 not in [
-                                                                                          '출발대기', '운행종료'] else '',
-                                                                                      tayo1, bus02,
-                                                                                      ' 도착 예정' if bus02 not in [
-                                                                                          '출발대기', '운행종료'] else '',
-                                                                                      tayo2)
+                    'text': '---{}({})---\n\n이번 버스 : {}{}\n{}\n\n다음 버스 : {}{}\n{}'.format(clickedButton, busStop, bus01,
+                            '도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', tayo1, bus02,
+                            '도착 예정' if bus02 not in ['출발대기', '운행종료'] else '', tayo2)
 
                 },
                 'keyboard': {
@@ -291,12 +287,9 @@ def message(request):
         return JsonResponse(
             {
                 'message': {
-                    'text': '---{}---\n\n이번 버스 : {}{}\n\n\n다음 버스 : {}{}\n'.format(busStop, bus01,
-                                                                                  ' 도착 예정' if bus01 not in ['출발대기',
-                                                                                                            '운행종료'] else '',
-                                                                                  bus02,
-                                                                                  ' 도착 예정' if bus02 not in ['출발대기',
-                                                                                                            '운행종료'] else '', )
+                    'text': '---{}({})---\n\n이번 버스 : {}{}\n{}\n\n다음 버스 : {}{}\n{}'.format(clickedButton, busStop, bus01,
+                            '도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', bus02,
+                            '도착 예정' if bus02 not in ['출발대기', '운행종료'] else '')
                 },
                 'keyboard': {
                     'type': 'buttons',
@@ -340,13 +333,9 @@ def message(request):
         return JsonResponse(
             {
                 'message': {
-                    'text': '---{}---\n\n이번 버스 : {}{}\n{}\n\n다음 버스 : {}{}\n{}'.format('구암중고등학교(115동방면)', bus01,
-                                                                                      ' 도착 예정' if bus01 not in [
-                                                                                          '출발대기', '운행종료'] else '',
-                                                                                      tayo1, bus02,
-                                                                                      ' 도착 예정' if bus02 not in [
-                                                                                          '출발대기', '운행종료'] else '',
-                                                                                      tayo2)
+                    'text': '---{}({})---\n\n이번 버스 : {}{}\n{}\n\n다음 버스 : {}{}\n{}'.format(clickedButton, busStop, bus01,
+                            '도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', tayo1, bus02,
+                            '도착 예정' if bus02 not in ['출발대기', '운행종료'] else '', tayo2)
                 },
                 'keyboard': {
                     'type': 'buttons',
@@ -362,12 +351,9 @@ def message(request):
         return JsonResponse(
             {
                 'message': {
-                    'text': '---{}---\n\n이번 버스 : {}{}\n\n\n다음 버스 : {}{}\n'.format(busStop, bus01,
-                                                                                  ' 도착 예정' if bus01 not in ['출발대기',
-                                                                                                            '운행종료'] else '',
-                                                                                  bus02,
-                                                                                  ' 도착 예정' if bus02 not in ['출발대기',
-                                                                                                            '운행종료'] else '')
+                    'text': '---{}({})---\n\n이번 버스 : {}{}\n{}\n\n다음 버스 : {}{}\n{}'.format(clickedButton, busStop, bus01,
+                            '도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', bus02,
+                            '도착 예정' if bus02 not in ['출발대기', '운행종료'] else '')
 
                 },
                 'keyboard': {
