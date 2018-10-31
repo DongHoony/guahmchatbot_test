@@ -206,9 +206,9 @@ def message(request):
 
     elif clickedButton == '등/하굣길 설정하기':
         if is_busstn_setting == 0:
+            bus_stn_setting_list.append(user_key)
             is_busstn_setting = 1
-            if len(bus_stn_setting_list) != 0:
-                bus_stn_setting_list = []
+
             return JsonResponse(
                 {
                     'message': {
@@ -280,10 +280,10 @@ def message(request):
         bus_stn_setting_list.append(['21243','21244'][['벽산아파트방면 (설정)', '관악드림타운아파트방면 (설정)'].index(clickedButton)])
         print(bus_stn_setting_list)
         c = bus_db.cursor()
-        c.execute("INSERT INTO BusService VALUES (?, ?, ?, ?)",([user_key], bus_stn_setting_list[0], bus_stn_setting_list[1], bus_stn_setting_list[2]))
+        c.execute("INSERT INTO BusService VALUES (?, ?, ?, ?)",(bus_stn_setting_list[0], bus_stn_setting_list[1], bus_stn_setting_list[2],bus_stn_setting_list[3]))
         bus_db.commit()
 
-        c.execute("SELECT * FROM BusService WHERE user_key = ?",[user_key])
+        c.execute("SELECT * FROM BusService WHERE user_key = ?",bus_stn_setting_list[0])
         print(c.fetchall())
 
 
