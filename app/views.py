@@ -284,7 +284,7 @@ def message(request):
 
         c.execute("SELECT * FROM BusService WHERE user_key = ?", (bus_stn_setting_list[0],))
         if c.fetchall() != []:
-            c.execute("DELETE * FROM BusService WHERE user_key = ?", (bus_stn_setting_list[0],))
+            c.execute("DELETE FROM BusService WHERE user_key = ?", (bus_stn_setting_list[0],))
         c.execute("INSERT INTO BusService VALUES (?, ?, ?, ?)",(bus_stn_setting_list[0], bus_stn_setting_list[1], bus_stn_setting_list[2],bus_stn_setting_list[3]))
         bus_db.commit()
 
