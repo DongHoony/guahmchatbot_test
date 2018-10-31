@@ -209,6 +209,7 @@ def message(request):
 
         if is_busstn_setting == 1:
             ctime = int(t.time())
+            print(ctime - setting_task_time)
             if ctime - setting_task_time > 15:
                 is_busstn_setting = 0
                 print('Time elasped more than 15 secs setting tasks. resetting...')
