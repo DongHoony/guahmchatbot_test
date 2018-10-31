@@ -10,6 +10,7 @@ import time as t
 # import io
 # sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
 # sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
+# 깃허브 왜 안되냐
 
 # BusStops, to School
 schoolBusStop13 = ['벽산아파트', '약수맨션', '노량진역', '대방역2번출구앞']
