@@ -184,7 +184,7 @@ def message(request):
     is_busstn_setting = 0
     bus_stn_setting_list = []
     c = bus_db.cursor()
-    c.execute("SELECT * FROM BusService WHERE user_key = user_key")
+    c.execute("SELECT * FROM BusService WHERE user_key = ?",user_key)
     print(c.fetchall())
 
 
@@ -278,7 +278,7 @@ def message(request):
     elif clickedButton in ['벽산아파트방면 (설정)', '관악드림타운아파트방면 (설정)']:
         bus_stn_setting_list.append(['21243','21244'][['벽산아파트방면 (설정)', '관악드림타운아파트방면 (설정)'].index(clickedButton)])
         c = bus_db.cursor()
-        c.execute("INSERT INTO BusService VALUES (user_key, bus_stn_setting_list[0], bus_stn_setting_list[1], bus_stn_setting_list[2])")
+        c.execute("INSERT INTO BusService VALUES (?, ?, ?, ?)",(user_key, bus_stn_setting_list[0], bus_stn_setting_list[1], bus_stn_setting_list[2]))
         bus_db.commit()
         bus_db.close()
         is_busstn_setting = 0
