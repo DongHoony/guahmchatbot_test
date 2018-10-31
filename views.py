@@ -90,7 +90,7 @@ def bus(n, busStn, busNo):
 
 isRefreshed = 0
 updatedtime = 0
-
+setting_task_time = 0
 
 def foodie(n):
     global isRefreshed, updatedtime
@@ -175,6 +175,8 @@ def keyboard(request):
 
 @csrf_exempt
 def message(request):
+    global setting_task_time
+
     json_str = (request.body).decode('utf-8')
     received_json = json.loads(json_str)
     clickedButton = received_json['content']
@@ -204,7 +206,16 @@ def message(request):
 
 
     elif clickedButton == '등/하굣길 설정하기':
-        if is_busstn_setting in [0, 1]:
+
+        if is_busstn_setting == 1:
+            ctime = int(t.time())
+            if ctime - setting_task_time > 15:
+                is_busstn_setting = 0
+                print('Time elasped more than 15 secs setting tasks. resetting...')
+
+        if is_busstn_setting == 0:
+
+            setting_task_time = int(t.time())
             is_busstn_setting = 1
             if len(bus_stn_setting_list) != 0:
                 bus_stn_setting_list = []
@@ -219,6 +230,9 @@ def message(request):
                     }
                 }
             )
+
+
+
         else:
             return JsonResponse(
                 {
