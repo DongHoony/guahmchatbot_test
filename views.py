@@ -10,7 +10,6 @@ import time as t
 # import io
 # sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
 # sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
-# 깃허브 왜 안되냐
 
 # BusStops, to School
 schoolBusStop13 = ['벽산아파트', '약수맨션', '노량진역', '대방역2번출구앞']
@@ -87,6 +86,7 @@ def foodie(n):
     # 일요일, 새로고침되지 않았을 때 실행 (다른 방법 필요할듯, 업데이트 날짜 가져와서 7일 내이면 넘기고, 아니면 업데이트 하는 식으로)
     # food함수 내에는 고쳐질 게 많다. 토요일, 일요일에 리턴하는 0값을 처리해야 함.
     # 또, 방학이나 공휴일처럼 평일이지만 배식하지 않는 경우를 추가해줘야 함.
+
     if ((currenttime - updatedtime) > 500000 and isRefreshed == 0) or lunchfoods == []:
         # print함수는 서버 내의 consol log에 기록
         print('Empty Food task, Building up...')
@@ -114,7 +114,7 @@ def foodie(n):
             td1[i] = str(td1[i])
             td2[i] = str(td2[i])
             tempdish1 = td1[i].replace('<td class="textC">', '').replace('<br/>', '\n', -1).replace('</td>', '')
-            dish1 = ''
+            dish1 = '- '
             for _ in tempdish1:
                 if _ in '1234567890.':
                     continue
@@ -122,7 +122,7 @@ def foodie(n):
                     dish1 += _
 
             tempdish2 = td2[i].replace('<td class="textC">', '').replace('<br/>', '\n', -1).replace('</td>', '')
-            dish2 = ''
+            dish2 = '- '
             for _ in tempdish2:
                 if _ in '1234567890.':
                     continue
@@ -147,7 +147,7 @@ def keyboard(request):
         {
             'type': 'buttons',
 
-            'buttons': ['오늘의 급식', '등하교 버스안내']
+            'buttons': ['구암고 급식안내', '등하교 버스안내']
 
         }
 
@@ -168,16 +168,16 @@ def message(request):
                 },
                 'keyboard': {
                     'type': 'buttons',
-                    'buttons': ['오늘의 급식', '등하교 버스안내']
+                    'buttons': ['구암고 급식안내', '등하교 버스안내']
                 }
             }
         )
 
-    elif clickedButton == '오늘의 급식':
+    elif clickedButton == '구암고 급식안내':
         return JsonResponse(
             {
                 'message': {
-                    'text': '중 / 석식을 선택해 주세요.\n매일 오후 2시 이후에는 다음날 급식을 안내합니다.'
+                    'text': '중 / 석식을 선택해 주세요.\n매일 오후 5시 이후에는 다음날 급식을 안내합니다.'
                 },
                 'keyboard': {
                     'type': 'buttons',
@@ -203,7 +203,7 @@ def message(request):
         tmr = 0
         day = foodie(str(t.ctime())[:3])
 
-        if int(str(t.ctime())[11:13]) > 14: # 2시가 지나면 내일 점심을 보여준다
+        if int(str(t.ctime())[11:13]) > 16: # 5시가 지나면 내일 점심을 보여준다
             tmr = 1
             day += 1
         return JsonResponse(
@@ -214,7 +214,7 @@ def message(request):
                 },
                 'keyboard': {
                     'type': 'buttons',
-                    'buttons': ['오늘의 급식', '등하교 버스안내']
+                    'buttons': ['구암고 급식안내', '등하교 버스안내']
                 }
             }
         )
@@ -223,18 +223,18 @@ def message(request):
         tmr = 0
         day = foodie(str(t.ctime())[:3])
 
-        if int(str(t.ctime())[11:13]) > 14:  # 2시가 지나면 내일 점심을 보여준다
+        if int(str(t.ctime())[11:13]) > 16:  # 5시가 지나면 내일 점심을 보여준다
             tmr = 1
             day += 1
         return JsonResponse(
             {
                 'message': {
                     'text': '{}의 석식\n\n{}'.format('오늘' if tmr == 0 else '내일',
-                                                  lunchfoods[day] if day < 5 else '메뉴가 없습니다.')
+                                                  dinnerfoods[day] if day < 5 else '메뉴가 없습니다.')
                 },
                 'keyboard': {
                     'type': 'buttons',
-                    'buttons': ['오늘의 급식', '등하교 버스안내']
+                    'buttons': ['구암고 급식안내', '등하교 버스안내']
                 }
             }
         )
@@ -281,7 +281,7 @@ def message(request):
                 },
                 'keyboard': {
                     'type': 'buttons',
-                    'buttons': ['오늘의 급식', '등하교 버스안내']
+                    'buttons': ['구암고 급식안내', '등하교 버스안내']
                 }
             }
         )
@@ -301,7 +301,7 @@ def message(request):
                 },
                 'keyboard': {
                     'type': 'buttons',
-                    'buttons': ['오늘의 급식', '등하교 버스안내']
+                    'buttons': ['구암고 급식안내', '등하교 버스안내']
                 }
             }
         )
@@ -347,7 +347,7 @@ def message(request):
                 },
                 'keyboard': {
                     'type': 'buttons',
-                    'buttons': ['오늘의 급식', '등하교 버스안내']
+                    'buttons': ['구암고 급식안내', '등하교 버스안내']
                 }
             }
         )
@@ -366,7 +366,7 @@ def message(request):
                 },
                 'keyboard': {
                     'type': 'buttons',
-                    'buttons': ['오늘의 급식', '등하교 버스안내']
+                    'buttons': ['구암고 급식안내', '등하교 버스안내']
                 }
             }
         )
