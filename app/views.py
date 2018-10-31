@@ -4,6 +4,19 @@ import urllib.request as ul
 import xmltodict
 import json
 import time as t
+import sqlite3
+
+bus_db = sqlite3.connect('bus_key.db')
+
+try:
+    c = bus_db.cursor()
+    c.execute("""CREATE TABLE BusService (
+                user_key text,
+                bus_num integer,
+                school_stn text,
+                home_stn text)""")
+except sqlite3.OperationalError:
+    print("Table already exists, Skip making table...")
 
 # from django.shortcuts import render
 # import sys
@@ -19,6 +32,12 @@ schoolBusStop5513 = ['관악구청', '서울대입구', '봉천사거리, 봉천
 homeBusStop13 = ['관악드림타운북문 방면 (동작13)', '벽산아파트 방면 (동작13)']
 homeBusStop5513 = ['관악드림타운북문 방면 (5513)', '벽산아파트 방면 (5513)']
 
+numBusStop13 = ['21910', '20891', '20867', '20834']
+numBusStop5513 = ['21130', '21252', '21131', '21236', '21247']
+
+# Setting lines
+setting13 = ['벽산아파트 (설정)', '약수맨션 (설정)', '노량진역 (설정)', '대방역2번출구앞 (설정)']
+setting5513 = ['관악구청 (설정)', '서울대입구 (설정)', '봉천사거리 (설정)' , '봉천중앙시장 (설정)', '봉현초등학교 (설정)', '벽산블루밍벽산아파트303동앞 (설정)']
 # Meal table, index(0-4) => Mon-Fri
 lunchfoods = []
 dinnerfoods = []
@@ -162,6 +181,13 @@ def message(request):
     user_key = received_json['user_key']
     print(user_key)
 
+    is_busstn_setting = 0
+    bus_stn_setting_list = []
+    c = bus_db.cursor()
+    c.execute("SELECT * FROM BusService WHERE user_key = user_key")
+    print(c.fetchall())
+
+
     if clickedButton == '초기화면':
         return JsonResponse(
             {
@@ -170,7 +196,115 @@ def message(request):
                 },
                 'keyboard': {
                     'type': 'buttons',
-                    'buttons': ['구암고 급식안내', '등하교 버스안내']
+                    'buttons': ['내 등굣길', '내 하굣길', '구암고 급식안내', '등하교 버스안내', '등/하굣길 설정하기']
+                }
+            }
+        )
+
+
+
+    elif clickedButton == '등/하굣길 설정하기':
+        if is_busstn_setting == 0:
+            is_busstn_setting = 1
+            if len(bus_stn_setting_list) != 0:
+                bus_stn_setting_list = []
+            return JsonResponse(
+                {
+                    'message': {
+                        'text': 'Step 1 / 3: 버스를 선택해 주세요.'
+                    },
+                    'keyboard': {
+                        'type': 'buttons',
+                        'buttons': ['동작13 (설정)', '5513 (설정)']
+                    }
+                }
+            )
+        else:
+            return JsonResponse(
+                {
+                    'message': {
+                        'text': '다른 사람이 작업 중입니다. 잠시 후 다시 시도해 주세요.'
+                    },
+                    'keyboard': {
+                        'type': 'buttons',
+                        'buttons': ['초기화면']
+                    }
+                }
+            )
+
+    elif clickedButton == '동작13 (설정)':
+        bus_stn_setting_list.append(13)
+        return JsonResponse(
+            {
+                'message': {
+                    'text': 'Step 2 / 3: 등교 시 이용하는 버스정류장을 선택해 주세요.'
+                },
+                'keyboard': {
+                    'type': 'buttons',
+                    'buttons': ['벽산아파트 (설정)', '약수맨션 (설정)', '노량진역 (설정)', '대방역2번출구앞 (설정)']
+                }
+            }
+        )
+
+    elif clickedButton == '5513 (설정)':
+        bus_stn_setting_list.append(5513)
+        return JsonResponse(
+            {
+                'message': {
+                    'text': 'Step 2 / 3: 등교 시 이용하는 버스정류장을 선택해 주세요.'
+                },
+                'keyboard': {
+                    'type': 'buttons',
+                    'buttons': ['관악구청 (설정)', '서울대입구 (설정)', '봉천사거리 (설정)' , '봉천중앙시장 (설정)', '봉현초등학교 (설정)', '벽산블루밍벽산아파트303동앞 (설정)']
+                }
+            }
+        )
+
+
+    elif clickedButton in setting13:
+        bus_stn_setting_list.append(numBusStop13[setting13.index(clickedButton)])
+        return JsonResponse(
+            {
+                'message': {
+                    'text': 'Step 3 / 3: 하교방향을 선택해 주세요.'
+                },
+                'keyboard': {
+                    'type': 'buttons',
+                    'buttons': ['벽산아파트방면 (설정)', '관악드림타운아파트방면 (설정)']
+                }
+            }
+        )
+
+    elif clickedButton in ['벽산아파트방면 (설정)', '관악드림타운아파트방면 (설정)']:
+        bus_stn_setting_list.append(['21243','21244'][['벽산아파트방면 (설정)', '관악드림타운아파트방면 (설정)'].index(clickedButton)])
+        c = bus_db.cursor()
+        c.execute("INSERT INTO BusService VALUES (user_key, bus_stn_setting_list[0], bus_stn_setting_list[1], bus_stn_setting_list[2])")
+        bus_db.commit()
+        bus_db.close()
+        is_busstn_setting = 0
+        return JsonResponse(
+            {
+                'message': {
+                    'text': '설정되었습니다.'
+                },
+                'keyboard': {
+                    'type': 'buttons',
+                    'buttons': ['초기화면']
+                }
+            }
+        )
+
+
+    elif clickedButton in setting5513:
+        bus_stn_setting_list.append(numBusStop5513[setting5513.index(clickedButton)])
+        return JsonResponse(
+            {
+                'message': {
+                    'text': 'Step 3 / 3: 하교방향을 선택해 주세요.'
+                },
+                'keyboard': {
+                    'type': 'buttons',
+                    'buttons': ['5513_벽산아파트방면 (설정)', '5513_관악드림타운아파트방면 (설정)']
                 }
             }
         )
@@ -267,8 +401,8 @@ def message(request):
             }
         )
 
-    if clickedButton in schoolBusStop13:
-        busStop = ['21910', '20891', '20867', '20834'][schoolBusStop13.index(clickedButton)]
+    elif clickedButton in schoolBusStop13:
+        busStop = numBusStop13[schoolBusStop13.index(clickedButton)]
         n = [0, 1, 1, 2][schoolBusStop13.index(clickedButton)]
         busList = bus(n, busStop, 13)
         bus01, bus02, tayo1, tayo2 = map(str, busList)
@@ -288,8 +422,8 @@ def message(request):
             }
         )
 
-    if clickedButton in schoolBusStop5513:
-        busStop = ['21130', '21252', '21131', '21236', '21247'][schoolBusStop5513.index(clickedButton)]
+    elif clickedButton in schoolBusStop5513:
+        busStop = numBusStop5513[schoolBusStop5513.index(clickedButton)]
         n = [5, 1, 7, 2, 0][schoolBusStop5513.index(clickedButton)]
         busList = bus(n, busStop, 5513)
         bus01, bus02 = map(str, busList)
@@ -336,7 +470,7 @@ def message(request):
             }
         )
 
-    if clickedButton in homeBusStop13:
+    elif clickedButton in homeBusStop13:
         busStop = ['21244', '21243'][homeBusStop13.index(clickedButton)]
         busList = bus(1, busStop, 13)
         bus01, bus02, tayo1, tayo2 = map(str, busList)
@@ -354,7 +488,7 @@ def message(request):
             }
         )
 
-    if clickedButton in homeBusStop5513:
+    elif clickedButton in homeBusStop5513:
         busStop = ['21244', '21243'][homeBusStop5513.index(clickedButton)]
         busList = bus(2, busStop, 5513)
         bus01, bus02 = map(str, busList)
