@@ -149,7 +149,7 @@ def keyboard(request):
         {
             'type': 'buttons',
 
-            'buttons': ['오늘의 급식', '동작13 - 등교', '동작13 - 하교', '5513 - 등교', '5513 - 하교']
+            'buttons': ['오늘의 급식', '등하교 버스안내']
 
         }
 
@@ -170,7 +170,7 @@ def message(request):
                 },
                 'keyboard': {
                     'type': 'buttons',
-                    'buttons': ['오늘의 급식', '동작13 - 등교', '동작13 - 하교', '5513 - 등교', '5513 - 하교']
+                    'buttons': ['오늘의 급식', '등하교 버스안내']
                 }
             }
         )
@@ -188,6 +188,20 @@ def message(request):
             }
         )
 
+    elif clickedButton == '등하교 버스안내':
+        return JsonResponse(
+            {
+                'message': {
+                    'text': '노선 및 방향을 선택해 주세요'
+                },
+                'keyboard': {
+                    'type': 'buttons',
+                    'buttons': ['동작13 - 등교', '동작13 - 하교', '5513 - 등교', '5513 - 하교']
+                }
+            }
+        )
+
+
     elif clickedButton == '중식':
         day = foodie(str(t.ctime())[:3])
         return JsonResponse(
@@ -197,7 +211,7 @@ def message(request):
                 },
                 'keyboard': {
                     'type': 'buttons',
-                    'buttons': ['오늘의 급식', '동작13 - 등교', '동작13 - 하교', '5513 - 등교', '5513 - 하교']
+                    'buttons': ['오늘의 급식', '등하교 버스안내']
                 }
             }
         )
@@ -211,7 +225,7 @@ def message(request):
                 },
                 'keyboard': {
                     'type': 'buttons',
-                    'buttons': ['오늘의 급식', '동작13 - 등교', '동작13 - 하교', '5513 - 등교', '5513 - 하교']
+                    'buttons': ['오늘의 급식', '등하교 버스안내']
                 }
             }
         )
@@ -262,7 +276,7 @@ def message(request):
                 },
                 'keyboard': {
                     'type': 'buttons',
-                    'buttons': ['오늘의 급식', '동작13 - 등교', '동작13 - 하교', '5513 - 등교', '5513 - 하교']
+                    'buttons': ['오늘의 급식', '등하교 버스안내']
                 }
             }
         )
@@ -285,7 +299,7 @@ def message(request):
                 },
                 'keyboard': {
                     'type': 'buttons',
-                    'buttons': ['오늘의 급식', '동작13 - 등교', '동작13 - 하교', '5513 - 등교', '5513 - 하교']
+                    'buttons': ['오늘의 급식', '등하교 버스안내']
                 }
             }
         )
@@ -335,7 +349,7 @@ def message(request):
                 },
                 'keyboard': {
                     'type': 'buttons',
-                    'buttons': ['오늘의 급식', '동작13 - 등교', '동작13 - 하교', '5513 - 등교', '5513 - 하교']
+                    'buttons': ['오늘의 급식', '등하교 버스안내']
                 }
             }
         )
@@ -357,7 +371,7 @@ def message(request):
                 },
                 'keyboard': {
                     'type': 'buttons',
-                    'buttons': ['오늘의 급식', '동작13 - 등교', '동작13 - 하교', '5513 - 등교', '5513 - 하교']
+                    'buttons': ['오늘의 급식', '등하교 버스안내']
                 }
             }
         )
