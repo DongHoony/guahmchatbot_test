@@ -6,7 +6,7 @@ import json
 import time as t
 import sqlite3
 
-bus_db = sqlite3.connect('bus_key.db')
+bus_db = sqlite3.connect('bus_key.db',check_same_thread=False)
 
 try:
     c = bus_db.cursor()
