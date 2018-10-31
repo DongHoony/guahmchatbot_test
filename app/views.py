@@ -289,7 +289,7 @@ def message(request):
         bus_db.commit()
 
         c.execute("SELECT * FROM BusService WHERE user_key = ?", (bus_stn_setting_list[0],))
-        print(c.fetchall())
+        print(c.fetchone())
 
 
         is_busstn_setting = 0
