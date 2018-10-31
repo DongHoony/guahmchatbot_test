@@ -90,7 +90,8 @@ def bus(n, busStn, busNo):
 
 isRefreshed = 0
 updatedtime = 0
-
+is_busstn_setting = 0
+bus_stn_setting_list = []
 
 def foodie(n):
     global isRefreshed, updatedtime
@@ -175,17 +176,17 @@ def keyboard(request):
 
 @csrf_exempt
 def message(request):
+    global bus_stn_setting_list, is_busstn_setting
     json_str = (request.body).decode('utf-8')
     received_json = json.loads(json_str)
     clickedButton = received_json['content']
     user_key = received_json['user_key']
     print(user_key)
 
-    is_busstn_setting = 0
-    bus_stn_setting_list = []
-#    c = bus_db.cursor()
-#    c.execute("SELECT * FROM BusService WHERE user_key = ?",user_key)
-#    print(c.fetchall())
+
+#   c = bus_db.cursor()
+#   c.execute("SELECT * FROM BusService WHERE user_key = ?",user_key)
+#   print(c.fetchall())
 
 
     if clickedButton == '초기화면':
@@ -277,8 +278,8 @@ def message(request):
 
     elif clickedButton in ['벽산아파트방면 (설정)', '관악드림타운아파트방면 (설정)']:
         bus_stn_setting_list.append(['21243','21244'][['벽산아파트방면 (설정)', '관악드림타운아파트방면 (설정)'].index(clickedButton)])
-        c = bus_db.cursor()
         print(bus_stn_setting_list)
+        c = bus_db.cursor()
         c.execute("INSERT INTO BusService VALUES (?, ?, ?, ?)",(user_key, bus_stn_setting_list[0], bus_stn_setting_list[1], bus_stn_setting_list[2]))
         bus_db.commit()
         bus_db.close()
