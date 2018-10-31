@@ -278,6 +278,7 @@ def message(request):
     elif clickedButton in ['벽산아파트방면 (설정)', '관악드림타운아파트방면 (설정)']:
         bus_stn_setting_list.append(['21243','21244'][['벽산아파트방면 (설정)', '관악드림타운아파트방면 (설정)'].index(clickedButton)])
         c = bus_db.cursor()
+        print(bus_stn_settng_list)
         c.execute("INSERT INTO BusService VALUES (?, ?, ?, ?)",(user_key, bus_stn_setting_list[0], bus_stn_setting_list[1], bus_stn_setting_list[2]))
         bus_db.commit()
         bus_db.close()
