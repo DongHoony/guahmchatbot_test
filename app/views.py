@@ -12,6 +12,16 @@ import sqlite3
 # sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
 # sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
 
+# Dump codes
+
+# BusStops, to School
+# schoolBusStop13 = ['벽산아파트', '약수맨션', '노량진역', '대방역2번출구앞']
+# schoolBusStop5513 = ['관악구청', '서울대입구', '봉천사거리, 봉천중앙시장', '봉현초등학교', '벽산블루밍벽산아파트303동앞']
+
+# BusStop values, to School
+# numBusStop13 = ['21910', '20891', '20867', '20834']
+# numBusStop5513 = ['21130', '21252', '21131', '21236', '21247']
+
 bus_db = sqlite3.connect('bus_key.db',check_same_thread=False)
 
 try:
@@ -24,21 +34,15 @@ try:
 except sqlite3.OperationalError:
     print("Table already exists, Skip making table...")
 
-# BusStops, to School
-# schoolBusStop13 = ['벽산아파트', '약수맨션', '노량진역', '대방역2번출구앞']
-# schoolBusStop5513 = ['관악구청', '서울대입구', '봉천사거리, 봉천중앙시장', '봉현초등학교', '벽산블루밍벽산아파트303동앞']
 
 # BusStops, to Home
 homeBusStop13 = ['관악드림타운북문 방면 (동작13)', '벽산아파트 방면 (동작13)']
 homeBusStop5513 = ['관악드림타운북문 방면 (5513)', '벽산아파트 방면 (5513)']
 
-# BusStop values, to School
-# numBusStop13 = ['21910', '20891', '20867', '20834']
-# numBusStop5513 = ['21130', '21252', '21131', '21236', '21247']
-
 # Setting lines
 setting13 = ['벽산아파트 (설정)', '약수맨션 (설정)', '노량진역 (설정)', '대방역2번출구앞 (설정)']
 setting5513 = ['관악구청 (설정)', '서울대입구 (설정)', '봉천사거리, 봉천중앙시장 (설정)', '봉현초등학교 (설정)', '벽산블루밍벽산아파트303동앞 (설정)']
+setting01 = []
 
 bus_stn_dict_13 = {'벽산아파트': '21910', '약수맨션': '20891', '노량진역': '20867', '대방역2번출구앞': '20834'}
 xml_index_num_13 = [0, 1, 1, 2]
@@ -46,9 +50,12 @@ xml_index_num_13 = [0, 1, 1, 2]
 bus_stn_dict_5513 = {'관악구청':'21130', '서울대입구': '21252', '봉천사거리, 봉천중앙시장': '21131', '봉현초등학교': '21236', '벽산블루밍벽산아파트303동앞': '21247'}
 xml_index_num_5513 = [5, 1, 7, 2, 0]
 
+bus_stn_dict_01 = {}
+xml_index_num_01 = []
+
 # Meal table, index(0-4) => Mon-Fri
-lunchfoods = []
-dinnerfoods = []
+lunch = []
+dinner = []
 
 
 # n은 xml상에서 봤을 때 itemList 순서임, index이므로 0부터 시작.
@@ -103,7 +110,7 @@ bus_stn_setting_list = []
 
 
 def foodie(n):
-    global isRefreshed, updatedtime, lunchfoods, dinnerfoods
+    global isRefreshed, updatedtime, lunch, dinner
     print("Attempting to access in Meal table, freshedrate = {}".format(isRefreshed))
 
     s = list(str(t.localtime()).replace('time.struct_time(', '').replace(')', '').split(', '))
@@ -118,7 +125,7 @@ def foodie(n):
     # food함수 내에는 고쳐질 게 많다. 토요일, 일요일에 리턴하는 0값을 처리해야 함.
     # 또, 방학이나 공휴일처럼 평일이지만 배식하지 않는 경우를 추가해줘야 함.
 
-    if ((currenttime - updatedtime) > 500000 and isRefreshed == 0) or lunchfoods == []:
+    if ((currenttime - updatedtime) > 500000 and isRefreshed == 0) or lunch == []:
         # print함수는 서버 내의 consol log에 기록
         print('Empty Food task, Building up...')
 
@@ -160,11 +167,11 @@ def foodie(n):
                 else:
                     dish2 += _
 
-            lunchfoods.append(dish1+'======== -')
-            dinnerfoods.append(dish2+'======== -')
+            lunch.append(dish1+'======== -')
+            dinner.append(dish2+'======== -')
 
-        lunchfoods += ['메뉴가 없습니다.']*2
-        dinnerfoods += ['메뉴가 없습니다.']*2
+        lunch += ['메뉴가 없습니다.']*2
+        dinner += ['메뉴가 없습니다.']*2
         updatedtime = int(t.time())
         isRefreshed = 1
         print("Meal task has been built / refreshed!")
@@ -342,7 +349,7 @@ def message(request):
             {
                 'message': {
                     'text': '🍴 {}의 {}식단 🍴\n📜 {} / {} ({}) 📜\n{}'.format('오늘' if tmr == 0 else '내일','중식' if clickedButton == '중식' else '석식',
-                                             m , d if tmr == 0 else d+1,'월화수목금토일'[day],lunchfoods[day] if clickedButton == '중식' else dinnerfoods[day])
+                                             m , d if tmr == 0 else d+1,'월화수목금토일'[day],lunch[day] if clickedButton == '중식' else dinner[day])
                 },
                 'keyboard': {
                     'type': 'buttons',
@@ -507,10 +514,6 @@ def message(request):
                 }
             }
         )
-
-    # bus_stn_dict_13 = {'벽산아파트': '21910', '약수맨션': '20891', '노량진역': '20867', '대방역2번출구앞': '20834'}
-    # xml_index_num_13 = [0, 1, 1, 2]
-    # Dict -> Keys: Values
 
     if clickedButton in bus_stn_dict_13.keys():
         busStop = bus_stn_dict_13.get(clickedButton) # '12345' 형태, clickedButtton은 한글형태
