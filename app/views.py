@@ -265,8 +265,7 @@ def message(request):
         )
 
     elif clickedButton in setting13:
-        print(bus_stn_dict_13.get(clickedButton.replace(' (설정)', '')))
-        bus_stn_setting_list.append(bus_stn_dict_13.get(clickedButton)[0])
+        bus_stn_setting_list.append(bus_stn_dict_13.get(clickedButton.replace(' (설정)', ''))[0])
         return JsonResponse(
             {
                 'message': {
