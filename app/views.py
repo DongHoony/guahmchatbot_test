@@ -269,7 +269,6 @@ def message(request):
         c = bus_db.cursor()
         c.execute("INSERT INTO BusService VALUES (?, ?, ?, ?)",(user_key, bus_stn_setting_list[0], bus_stn_setting_list[1], bus_stn_setting_list[2]))
         bus_db.commit()
-        bus_db.close()
         return JsonResponse(
             {
                 'message': {
