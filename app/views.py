@@ -73,7 +73,8 @@ def bus(n, busStn, busNo):
         rDJ = json.dumps(rD)
         rDD = json.loads(rDJ)
         busrDD = rDD["ServiceResult"]["msgBody"]["itemList"]
-        if len(busrDD) == 1:
+
+        if len(busrDD) == 43:
             bus01 = busrDD["arrmsg1"]
             bus02 = busrDD["arrmsg2"]
             id01 = busrDD["vehId1"]
