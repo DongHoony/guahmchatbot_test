@@ -191,7 +191,9 @@ def message(request):
     received_json = json.loads(json_str)
     clickedButton = received_json['content']
     user_key = received_json['user_key']
-    print(user_key)
+    
+    # Check glitch
+    print("User {} just pushed the button".format(user_key))
 
     if clickedButton == '초기화면':
         return JsonResponse(
