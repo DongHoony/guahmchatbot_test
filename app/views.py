@@ -102,8 +102,8 @@ def bus(n, busStn, busNo):
 
         elif busNo in [5513, 1]:
             return [bus01, bus02]
-        
-        
+
+
 
 
 isRefreshed = 0
@@ -754,7 +754,7 @@ def message(request):
 
     elif clickedButton in homeBusStop01:
         busStop = ['21244', '21243'][homeBusStop01.index(clickedButton)]
-        busList = bus(2, busStop, 1)
+        busList = bus(0, busStop, 1)
         bus01, bus02 = map(str, busList)
         return JsonResponse(
             {
