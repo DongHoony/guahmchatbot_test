@@ -138,7 +138,7 @@ def foodie(n):
         for i in range(1, 6):
             td1[i] = str(td1[i])
             td2[i] = str(td2[i])
-            tempdish1 = td1[i].replace('<td class="textC">', '').replace('<br/>', '\n', -1).replace('</td>', '').replace('\n','\n- ',-1)
+            tempdish1 = td1[i].replace('<td class="textC">', '').replace('<br/>', '\n', -1).replace('</td>', '').replace('&amp;',', ').replace('\n','\n- ',-1)
             dish1 = '- ======== -\n- '
             for _ in tempdish1:
                 if _ in '1234567890.':
@@ -146,7 +146,7 @@ def foodie(n):
                 else:
                     dish1 += _
 
-            tempdish2 = td2[i].replace('<td class="textC">', '').replace('<br/>', '\n', -1).replace('</td>', '').replace('\n','\n- ',-1)
+            tempdish2 = td2[i].replace('<td class="textC">', '').replace('<br/>', '\n', -1).replace('</td>', '').replace('&amp;',', ').replace('\n','\n- ',-1)
             dish2 = '- ======== -\n- '
             for _ in tempdish2:
                 if _ in '1234567890.':
