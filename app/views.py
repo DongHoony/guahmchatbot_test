@@ -173,7 +173,7 @@ def keyboard(request):
         {
             'type': 'buttons',
 
-            'buttons': ['구암고 급식안내', '내 등굣길', '내 하굣길', '등하교 버스안내', '등/하굣길 설정하기']
+            'buttons': ['구암고 급식안내', '내 등굣길 버스안내', '내 하굣길 버스안내', '등하교 버스안내', '등/하굣길 설정하기', '도움말']
 
         }
 
@@ -342,7 +342,7 @@ def message(request):
             }
         )
 
-    elif clickedButton == '내 등굣길':
+    elif clickedButton == '내 등굣길 버스안내':
         c = bus_db.cursor()
         c.execute("SELECT * FROM BusService WHERE user_key = ?", (user_key,))
         school = c.fetchone()
@@ -379,7 +379,7 @@ def message(request):
                     },
                     'keyboard': {
                         'type': 'buttons',
-                        'buttons': ['구암고 급식안내', '내 등굣길', '내 하굣길', '등하교 버스안내', '등/하굣길 설정하기']
+                        'buttons': ['구암고 급식안내', '내 등굣길 버스안내', '내 하굣길 버스안내', '등하교 버스안내', '등/하굣길 설정하기', '도움말']
                     }
                 }
             )
@@ -400,12 +400,12 @@ def message(request):
                     },
                     'keyboard': {
                         'type': 'buttons',
-                        'buttons': ['구암고 급식안내', '내 등굣길', '내 하굣길', '등하교 버스안내', '등/하굣길 설정하기']
+                        'buttons': ['구암고 급식안내', '내 등굣길 버스안내', '내 하굣길 버스안내', '등하교 버스안내', '등/하굣길 설정하기', '도움말']
                     }
                 }
             )
 
-    elif clickedButton == '내 하굣길':
+    elif clickedButton == '내 하굣길 버스안내':
         c = bus_db.cursor()
         c.execute("SELECT * FROM BusService WHERE user_key = ?", (user_key,))
         school = c.fetchone()
@@ -440,7 +440,7 @@ def message(request):
                     },
                     'keyboard': {
                         'type': 'buttons',
-                        'buttons': ['구암고 급식안내', '내 등굣길', '내 하굣길', '등하교 버스안내', '등/하굣길 설정하기']
+                        'buttons': ['구암고 급식안내', '내 등굣길 버스안내', '내 하굣길 버스안내', '등하교 버스안내', '등/하굣길 설정하기', '도움말']
                     }
                 }
             )
@@ -460,7 +460,7 @@ def message(request):
                     },
                     'keyboard': {
                         'type': 'buttons',
-                        'buttons': ['구암고 급식안내', '내 등굣길', '내 하굣길', '등하교 버스안내', '등/하굣길 설정하기']
+                        'buttons': ['구암고 급식안내', '내 등굣길 버스안내', '내 하굣길 버스안내', '등하교 버스안내', '등/하굣길 설정하기', '도움말']
                     }
                 }
             )
@@ -586,7 +586,7 @@ def message(request):
                 },
                 'keyboard': {
                     'type': 'buttons',
-                    'buttons': ['구암고 급식안내', '내 등굣길', '내 하굣길', '등하교 버스안내', '등/하굣길 설정하기']
+                    'buttons': ['구암고 급식안내', '내 등굣길 버스안내', '내 하굣길 버스안내', '등하교 버스안내', '등/하굣길 설정하기', '도움말']
                 }
             }
         )
