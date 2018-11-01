@@ -25,20 +25,26 @@ except sqlite3.OperationalError:
     print("Table already exists, Skip making table...")
 
 # BusStops, to School
-schoolBusStop13 = ['벽산아파트', '약수맨션', '노량진역', '대방역2번출구앞']
-schoolBusStop5513 = ['관악구청', '서울대입구', '봉천사거리, 봉천중앙시장', '봉현초등학교', '벽산블루밍벽산아파트303동앞']
+# schoolBusStop13 = ['벽산아파트', '약수맨션', '노량진역', '대방역2번출구앞']
+# schoolBusStop5513 = ['관악구청', '서울대입구', '봉천사거리, 봉천중앙시장', '봉현초등학교', '벽산블루밍벽산아파트303동앞']
 
 # BusStops, to Home
 homeBusStop13 = ['관악드림타운북문 방면 (동작13)', '벽산아파트 방면 (동작13)']
 homeBusStop5513 = ['관악드림타운북문 방면 (5513)', '벽산아파트 방면 (5513)']
 
 # BusStop values, to School
-numBusStop13 = ['21910', '20891', '20867', '20834']
-numBusStop5513 = ['21130', '21252', '21131', '21236', '21247']
+# numBusStop13 = ['21910', '20891', '20867', '20834']
+# numBusStop5513 = ['21130', '21252', '21131', '21236', '21247']
 
 # Setting lines
 setting13 = ['벽산아파트 (설정)', '약수맨션 (설정)', '노량진역 (설정)', '대방역2번출구앞 (설정)']
 setting5513 = ['관악구청 (설정)', '서울대입구 (설정)', '봉천사거리, 봉천중앙시장 (설정)', '봉현초등학교 (설정)', '벽산블루밍벽산아파트303동앞 (설정)']
+
+bus_stn_dict_13 = {'벽산아파트': '21910', '약수맨션': '20891', '노량진역': '20867', '대방역2번출구앞': '20834'}
+xml_index_num_13 = [0, 1, 1, 2]
+
+bus_stn_dict_5513 = {'관악구청':'21130', '서울대입구': '21252', '봉천사거리, 봉천중앙시장': '21131', '봉현초등학교': '21236', '벽산블루밍벽산아파트303동앞': '21247'}
+xml_index_num_5513 = [5, 1, 7, 2, 0]
 
 # Meal table, index(0-4) => Mon-Fri
 lunchfoods = []
@@ -253,7 +259,7 @@ def message(request):
         )
 
     elif clickedButton in setting13:
-        bus_stn_setting_list.append(numBusStop13[setting13.index(clickedButton)])
+        bus_stn_setting_list.append(list(bus_stn_dict_13.keys())[setting13.index(clickedButton)])
         return JsonResponse(
             {
                 'message': {
@@ -297,7 +303,7 @@ def message(request):
         )
 
     elif clickedButton in setting5513:
-        bus_stn_setting_list.append(numBusStop5513[setting5513.index(clickedButton)])
+        bus_stn_setting_list.append(list(bus_stn_dict_5513.keys())[setting5513.index(clickedButton)])
         return JsonResponse(
             {
                 'message': {
@@ -362,7 +368,7 @@ def message(request):
                 }
             )
         if school[1] == 13:
-            n = [0, 1, 1, 2][numBusStop13.index(school[2])]
+            n = xml_index_num_13[list(bus_stn_dict_13.values()).index(school[2])]
             busList = bus(n, school[2], 13)
             bus01, bus02, tayo1, tayo2 = map(str, busList)
             return JsonResponse(
@@ -380,7 +386,7 @@ def message(request):
                 }
             )
         else:
-            n = [5, 1, 7, 2, 0][numBusStop5513.index(school[2])]
+            n = xml_index_num_5513[list(bus_stn_dict_5513.values()).index(school[2])]
             bus(n, school[2], 5513)
             busList = bus(n, school[2], 5513)
             bus01, bus02 = map(str, busList)
@@ -500,12 +506,13 @@ def message(request):
             }
         )
 
-    elif clickedButton in schoolBusStop13:
-        busStop = numBusStop13[schoolBusStop13.index(clickedButton)]
-        n = [0, 1, 1, 2][schoolBusStop13.index(clickedButton)]
-        busList = bus(n, busStop, 13)
+    
+    if clickedButton in bus_stn_dict_13.keys():
+        busStop = bus_stn_dict_13.get(clickedButton)
+        n = xml_index_num_13[list(bus_stn_dict_13.keys()).index(clickedButton)]
+        busList = bus(n, busStop, 13)    
         bus01, bus02, tayo1, tayo2 = map(str, busList)
-
+        
         return JsonResponse(
             {
                 'message': {
@@ -520,13 +527,12 @@ def message(request):
                 }
             }
         )
-
-    elif clickedButton in schoolBusStop5513:
-        busStop = numBusStop5513[schoolBusStop5513.index(clickedButton)]
-        n = [5, 1, 7, 2, 0][schoolBusStop5513.index(clickedButton)]
+    
+    if clickedButton in bus_stn_dict_5513.keys():
+        busStop = bus_stn_dict_5513.get(clickedButton)
+        n = xml_index_num_5513[list(bus_stn_dict_13.keys()).index(clickedButton)]
         busList = bus(n, busStop, 5513)
         bus01, bus02 = map(str, busList)
-
         return JsonResponse(
             {
                 'message': {
@@ -540,6 +546,8 @@ def message(request):
                 }
             }
         )
+
+# No need to touch below, Final
 
     elif clickedButton == '동작13 - 하교':
 
