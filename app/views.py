@@ -167,7 +167,7 @@ def foodie(n):
     if n == 'Sat' and isRefreshed == 1:
         isRefreshed = 0
 
-    return [dayList.index(n), int(m), int(d)]
+    return [str(dayList.index(n)), m, d]
 
 
 def keyboard(request):
@@ -327,7 +327,7 @@ def message(request):
     elif clickedButton in ['중식', '석식']:
         tmr = 0
         flist = foodie(str(t.ctime())[:3])[0]
-        day, m, d = map(str, flist)
+        day, m, d = map(int, flist)
         if int(str(t.ctime())[11:13]) > 16:  # 5시가 지나면 내일 밥을 보여준다
             tmr = 1
             day += 1
@@ -335,7 +335,7 @@ def message(request):
             {
                 'message': {
                     'text': '🍴 {}의 {}식단 🍴\n📜 {} / {} ({}) 📜\n{}'.format('오늘' if tmr == 0 else '내일','중식' if clickedButton == '중식' else '석식',
-                                             m , d if tmr == 0 else int(d)+1,'월화수목금토일'[day],lunchfoods[day] if clickedButton == '중식' else dinnerfoods[day])
+                                             m , d if tmr == 0 else d+1,'월화수목금토일'[day],lunchfoods[day] if clickedButton == '중식' else dinnerfoods[day])
                 },
                 'keyboard': {
                     'type': 'buttons',
