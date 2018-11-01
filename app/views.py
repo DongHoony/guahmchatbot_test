@@ -3,7 +3,6 @@ from django.views.decorators.csrf import csrf_exempt
 import urllib.request as ul
 import xmltodict
 import json
-import datetime as dt
 import time as t
 import sqlite3
 
@@ -101,9 +100,11 @@ def foodie(n):
     global isRefreshed, updatedtime, lunchfoods, dinnerfoods
     print("Attempting to access in Meal table, freshedrate = {}".format(isRefreshed))
 
-    y,m,d = dt.datetime.today().year, dt.datetime.today().month, dt.datetime().today().day
-
-    ymd = y + '.' + m + '.' + d
+    s = list(str(t.localtime()).replace('time.struct_time(', '').replace(')', '').split(', '))
+    # 2018.10.29 형식
+    m = s[1].split('=')[1]
+    d = s[2].split('=')[1]
+    ymd = s[0].split('=')[1] + '.' + m + '.' + d
     currenttime = int(t.time())
     dayList = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
@@ -328,7 +329,7 @@ def message(request):
         flist = foodie(str(t.ctime())[:3])
         day, m, d = map(int, flist)
         print("User {} is trying to get meal task".format(user_key))
-        if dt.datetime.today().hour > 16:  # 5시가 지나면 내일 밥을 보여준다
+        if int(str(t.ctime())[11:13]) > 16:  # 5시가 지나면 내일 밥을 보여준다
             tmr = 1
             day += 1
         return JsonResponse(
