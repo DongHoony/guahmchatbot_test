@@ -139,7 +139,7 @@ def foodie(n):
             td1[i] = str(td1[i])
             td2[i] = str(td2[i])
             tempdish1 = td1[i].replace('<td class="textC">', '').replace('<br/>', '\n', -1).replace('</td>', '').replace('\n','\n- ',-1)
-            dish1 = '- ========\n- '
+            dish1 = '- ======== -\n- '
             for _ in tempdish1:
                 if _ in '1234567890.':
                     continue
@@ -147,15 +147,15 @@ def foodie(n):
                     dish1 += _
 
             tempdish2 = td2[i].replace('<td class="textC">', '').replace('<br/>', '\n', -1).replace('</td>', '').replace('\n','\n- ',-1)
-            dish2 = '- ========\n- '
+            dish2 = '- ======== -\n- '
             for _ in tempdish2:
                 if _ in '1234567890.':
                     continue
                 else:
                     dish2 += _
 
-            lunchfoods.append(dish1+'========')
-            dinnerfoods.append(dish2+'========')
+            lunchfoods.append(dish1+'======== -')
+            dinnerfoods.append(dish2+'======== -')
 
         lunchfoods += ['메뉴가 없습니다.']*2
         dinnerfoods += ['메뉴가 없습니다.']*2
