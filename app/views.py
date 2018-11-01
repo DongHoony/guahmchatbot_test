@@ -152,9 +152,9 @@ def foodie(n):
 
             lunchfoods.append(dish1)
             dinnerfoods.append(dish2)
-            lunchfoods += ['메뉴가 없습니다.']*2
-            dinnerfoods += ['메뉴가 없습니다.']*2
-
+            
+        lunchfoods += ['메뉴가 없습니다.']*2
+        dinnerfoods += ['메뉴가 없습니다.']*2
         updatedtime = int(t.time())
         isRefreshed = 1
 
