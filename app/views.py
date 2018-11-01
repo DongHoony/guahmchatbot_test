@@ -654,7 +654,7 @@ def message(request):
         )
 
     if clickedButton in bus_stn_dict_01.keys():
-        busStop, n = map(str, bus_stn_dict_01.get(clickedButton.replace(' (설정)', '')))
+        busStop, n = map(str, bus_stn_dict_01.get(clickedButton))
         busList = bus(int(n), busStop, 1)
         bus01, bus02 = map(str, busList)
         return JsonResponse(
