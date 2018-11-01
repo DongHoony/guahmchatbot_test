@@ -519,6 +519,8 @@ def message(request):
     # xml_index_num_13 = [0, 1, 1, 2]
 
     if clickedButton in bus_stn_dict_13.keys():
+        print(xml_index_num_13)
+        print(bus_stn_dict_13)
         busStop = bus_stn_dict_13.get(clickedButton) # '12345' 형태, clickedButtton은 한글형태
         print(list(bus_stn_dict_13.keys()).index(clickedButton))
         n = xml_index_num_13[list(bus_stn_dict_13.keys()).index(clickedButton)]
