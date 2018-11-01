@@ -93,6 +93,8 @@ def bus(n, busStn, busNo):
 isRefreshed = 0
 updatedtime = 0
 setting_task_time = 0
+bus_stn_setting_list = []
+
 
 def foodie(n):
     global isRefreshed, updatedtime, lunchfoods, dinnerfoods
@@ -180,14 +182,14 @@ def keyboard(request):
 
 @csrf_exempt
 def message(request):
-
+    global bus_stn_setting_list
     json_str = (request.body).decode('utf-8')
     received_json = json.loads(json_str)
     clickedButton = received_json['content']
     user_key = received_json['user_key']
     print(user_key)
 
-    bus_stn_setting_list = []
+
 
     if clickedButton == '초기화면':
         return JsonResponse(
