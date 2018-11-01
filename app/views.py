@@ -310,7 +310,7 @@ def message(request):
     elif clickedButton in ['중식', '석식']:
         tmr = 0
         day = foodie(str(t.ctime())[:3])
-
+        print(day)
         if int(str(t.ctime())[11:13]) > 16:  # 5시가 지나면 내일 밥을 보여준다
             tmr = 1
             day += 1
