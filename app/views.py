@@ -5,6 +5,7 @@ import xmltodict
 import json
 import time as t
 import sqlite3
+import collections
 
 # from django.shortcuts import render
 # import sys
@@ -651,7 +652,7 @@ def message(request):
         )
 
     if clickedButton in bus_stn_dict_01.keys():
-        busStop, n = map(str, bus_stn_dict_5513.get(clickedButton))
+        busStop, n = map(str, bus_stn_dict_01.get(clickedButton.replace(' (설정)', '')))
         busList = bus(int(n), busStop, 1)
         bus01, bus02 = map(str, busList)
         return JsonResponse(
@@ -710,7 +711,7 @@ def message(request):
                 }
             }
         )
-        
+
 
     elif clickedButton in homeBusStop13:
         busStop = ['21244', '21243'][homeBusStop13.index(clickedButton)]
