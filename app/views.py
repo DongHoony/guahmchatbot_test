@@ -259,7 +259,7 @@ def message(request):
         )
 
     elif clickedButton in setting13:
-        bus_stn_setting_list.append(list(bus_stn_dict_13.keys())[setting13.index(clickedButton)])
+        bus_stn_setting_list.append(list(bus_stn_dict_13.values())[setting13.index(clickedButton)])
         return JsonResponse(
             {
                 'message': {
@@ -303,7 +303,7 @@ def message(request):
         )
 
     elif clickedButton in setting5513:
-        bus_stn_setting_list.append(list(bus_stn_dict_5513.keys())[setting5513.index(clickedButton)])
+        bus_stn_setting_list.append(list(bus_stn_dict_5513.values())[setting5513.index(clickedButton)])
         return JsonResponse(
             {
                 'message': {
