@@ -152,7 +152,7 @@ def foodie(n):
 
             lunchfoods.append(dish1)
             dinnerfoods.append(dish2)
-            
+
         lunchfoods += ['메뉴가 없습니다.']*2
         dinnerfoods += ['메뉴가 없습니다.']*2
         updatedtime = int(t.time())
@@ -318,7 +318,7 @@ def message(request):
         return JsonResponse(
             {
                 'message': {
-                    'text': '{}의 {}\n\n{}'.format('오늘' if tmr == 0 else '내일',
+                    'text': '{}의 {}\n\n{}'.format('오늘' if tmr == 0 else '내일','중식' if clickedButton == '중식' else '석식',
                                                   lunchfoods[day] if clickedButton == '중식' else dinnerfoods[day])
                 },
                 'keyboard': {
