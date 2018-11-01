@@ -198,7 +198,7 @@ def keyboard(request):
 @csrf_exempt
 def message(request):
 
-    global bus_stn_setting_list
+    global bus_stn_setting_list, bus_stn_dict_13, bus_stn_dict_5513, bus_stn_dict_01
     json_str = (request.body).decode('utf-8')
     received_json = json.loads(json_str)
     clickedButton = received_json['content']
