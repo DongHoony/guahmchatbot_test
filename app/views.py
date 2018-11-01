@@ -332,7 +332,7 @@ def message(request):
         return JsonResponse(
             {
                 'message': {
-                    'text': '{}의 {}\n\n{}'.format('오늘' if tmr == 0 else '내일','중식' if clickedButton == '중식' else '석식',
+                    'text': '🍴 {}의 {}식단 🍴\n\n{}'.format('오늘' if tmr == 0 else '내일','중식' if clickedButton == '중식' else '석식',
                                                   lunchfoods[day] if clickedButton == '중식' else dinnerfoods[day])
                 },
                 'keyboard': {
