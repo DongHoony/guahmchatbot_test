@@ -72,18 +72,18 @@ def bus(n, busStn, busNo):
         rD = xmltodict.parse(responseData)
         rDJ = json.dumps(rD)
         rDD = json.loads(rDJ)
-
-        if n == 0:
-            bus01 = rDD["ServiceResult"]["msgBody"]["itemList"]["arrmsg1"]
-            bus02 = rDD["ServiceResult"]["msgBody"]["itemList"]["arrmsg2"]
-            id01 = rDD["ServiceResult"]["msgBody"]["itemList"]["vehId1"]
-            id02 = rDD["ServiceResult"]["msgBody"]["itemList"]["vehId2"]
+        busrDD = rDD["ServiceResult"]["msgBody"]["itemList"]
+        if len(busrDD) == 1:
+            bus01 = busrDD["arrmsg1"]
+            bus02 = busrDD["arrmsg2"]
+            id01 = busrDD["vehId1"]
+            id02 = busrDD["vehId2"]
 
         else:
-            bus01 = rDD["ServiceResult"]["msgBody"]["itemList"][n]["arrmsg1"]
-            bus02 = rDD["ServiceResult"]["msgBody"]["itemList"][n]["arrmsg2"]
-            id01 = rDD["ServiceResult"]["msgBody"]["itemList"][n]["vehId1"]
-            id02 = rDD["ServiceResult"]["msgBody"]["itemList"][n]["vehId2"]
+            bus01 = busrDD[n]["arrmsg1"]
+            bus02 = busrDD[n]["arrmsg2"]
+            id01 = busrDD[n]["vehId1"]
+            id02 = busrDD[n]["vehId2"]
 
         bus01 = '곧' if bus01 == '곧 도착' else bus01
         bus01 = bus01.replace('분', '분 ').replace('초후', '초 후 ').replace('번째', ' 정류장')
