@@ -365,7 +365,7 @@ def message(request):
                 }
             )
         if school[1] == 13:
-            n = [0, 1, 1, 2][list(bus_stop_dict_13.keys()).index(school[2])]
+            n = [0, 1, 1, 2][list(bus_stop_dict_13.values()).index(school[2])]
             bus01, bus02, tayo1, tayo2 = map(str, bus(n, school[2], 13))
             return JsonResponse(
                 {
@@ -389,7 +389,7 @@ def message(request):
                 }
             )
         else:
-            n = [5, 1, 7, 2, 0][list(bus_stop_dict_5513.keys()).index(school[2])]
+            n = [5, 1, 7, 2, 0][list(bus_stop_dict_5513.values()).index(school[2])]
             bus(n, school[2], 5513)
             busList = bus(n, school[2], 5513)
             bus01, bus02 = map(str, busList)
@@ -509,7 +509,7 @@ def message(request):
             }
         )
 
-    elif clickedButton in bus_stop_dict_13.values():
+    elif clickedButton in bus_stop_dict_13.keys():
         busStop = bus_stop_dict_13.get(clickedButton)
         n = [0, 1, 1, 2][list(bus_stop_dict_13.values()).index(clickedButton)]
         bus01, bus02, tayo1, tayo2 = map(str, bus(n, busStop, 13))
@@ -529,7 +529,7 @@ def message(request):
             }
         )
 
-    elif clickedButton in bus_stop_dict_5513.values():
+    elif clickedButton in bus_stop_dict_5513.keys():
         busStop = bus_stop_dict_5513.get(clickedButton)
         n = [5, 1, 7, 2, 0][list(bus_stop_dict_5513.values()).index(clickedButton)]
         bus01, bus02 = map(str, bus(n, busStop, 5513))
