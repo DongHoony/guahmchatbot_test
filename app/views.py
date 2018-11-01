@@ -367,6 +367,8 @@ def message(request):
                     }
                 }
             )
+
+
         if school[1] == 13:
             n = xml_index_num_13[list(bus_stn_dict_13.values()).index(school[2])]
             busList = bus(n, school[2], 13)
@@ -506,9 +508,13 @@ def message(request):
             }
         )
 
+    # bus_stn_dict_13 = {'벽산아파트': '21910', '약수맨션': '20891', '노량진역': '20867', '대방역2번출구앞': '20834'}
+    # xml_index_num_13 = [0, 1, 1, 2]
+    # Dict -> Keys: Values
 
     if clickedButton in bus_stn_dict_13.keys():
-        busStop = bus_stn_dict_13.get(clickedButton)
+        busStop = bus_stn_dict_13.get(clickedButton) # '12345' 형태, clickedButtton은 한글형태
+        print(list(bus_stn_dict_13.keys()).index(clickedButton))
         n = xml_index_num_13[list(bus_stn_dict_13.keys()).index(clickedButton)]
         print("xml index = {}".format(n))
         busList = bus(n, busStop, 13)
