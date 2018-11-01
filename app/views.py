@@ -191,11 +191,9 @@ def message(request):
     received_json = json.loads(json_str)
     clickedButton = received_json['content']
     user_key = received_json['user_key']
-    
-    # Check glitch
-    print("User {} just pushed the button".format(user_key))
 
     if clickedButton == '초기화면':
+        print("User {} pushed '초기화면'".format(user_key))
         return JsonResponse(
             {
                 'message': {
@@ -330,6 +328,7 @@ def message(request):
         tmr = 0
         flist = foodie(str(t.ctime())[:3])
         day, m, d = map(int, flist)
+        print("User {} is trying to get meal task".format(user_key))
         if int(str(t.ctime())[11:13]) > 16:  # 5시가 지나면 내일 밥을 보여준다
             tmr = 1
             day += 1
