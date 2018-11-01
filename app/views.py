@@ -5,6 +5,7 @@ import xmltodict
 import json
 import time as t
 import sqlite3
+import collections
 
 # from django.shortcuts import render
 # import sys
@@ -44,14 +45,12 @@ setting13 = ['벽산아파트 (설정)', '약수맨션 (설정)', '노량진역 
 setting5513 = ['관악구청 (설정)', '서울대입구 (설정)', '봉천사거리, 봉천중앙시장 (설정)', '봉현초등학교 (설정)', '벽산블루밍벽산아파트303동앞 (설정)']
 setting01 = []
 
-bus_stn_dict_13 = {'벽산아파트': '21910', '약수맨션': '20891', '노량진역': '20867', '대방역2번출구앞': '20834'}
-xml_index_num_13 = [0, 1, 1, 2]
+bus_stn_dict_13 = {'벽산아파트': ['21910',0 ],  '약수맨션': ['20891',1], '노량진역': ['20867',1], '대방역2번출구앞': ['20834',2]}
 
-bus_stn_dict_5513 = {'관악구청':'21130', '서울대입구': '21252', '봉천사거리, 봉천중앙시장': '21131', '봉현초등학교': '21236', '벽산블루밍벽산아파트303동앞': '21247'}
-xml_index_num_5513 = [5, 1, 7, 2, 0]
+bus_stn_dict_5513 = {'관악구청':['21130',5], '서울대입구': ['21252',1], '봉천사거리, 봉천중앙시장': ['21131',7], '봉현초등학교': ['21236',2], '벽산블루밍벽산아파트303동앞': ['21247',0]}
 
 bus_stn_dict_01 = {}
-xml_index_num_01 = []
+
 
 # Meal table, index(0-4) => Mon-Fri
 lunch = []
@@ -266,7 +265,7 @@ def message(request):
         )
 
     elif clickedButton in setting13:
-        bus_stn_setting_list.append(list(bus_stn_dict_13.values())[setting13.index(clickedButton)])
+        bus_stn_setting_list.append(bus_stn_dict_13.get(clickedButton)[0])
         return JsonResponse(
             {
                 'message': {
@@ -310,7 +309,7 @@ def message(request):
         )
 
     elif clickedButton in setting5513:
-        bus_stn_setting_list.append(list(bus_stn_dict_5513.values())[setting5513.index(clickedButton)])
+        bus_stn_setting_list.append(bus_stn_dict_5513.get(clickedButton)[0])
         return JsonResponse(
             {
                 'message': {
@@ -377,7 +376,10 @@ def message(request):
 
 
         if school[1] == 13:
-            n = xml_index_num_13[list(bus_stn_dict_13.values()).index(school[2])]
+            for i in bus_stn_dict_13.values():
+                if i[0] == school[2]:
+                    n = i[1]
+                    break
             busList = bus(n, school[2], 13)
             bus01, bus02, tayo1, tayo2 = map(str, busList)
             return JsonResponse(
@@ -395,7 +397,10 @@ def message(request):
                 }
             )
         else:
-            n = xml_index_num_5513[list(bus_stn_dict_5513.values()).index(school[2])]
+            for i in bus_stn_dict_5513.values():
+                if i[0] == school[2]:
+                    n = i[1]
+                    break
             bus(n, school[2], 5513)
             busList = bus(n, school[2], 5513)
             bus01, bus02 = map(str, busList)
@@ -519,13 +524,8 @@ def message(request):
     # xml_index_num_13 = [0, 1, 1, 2]
 
     if clickedButton in bus_stn_dict_13.keys():
-        print(xml_index_num_13)
-        print(bus_stn_dict_13)
-        busStop = bus_stn_dict_13.get(clickedButton) # '12345' 형태, clickedButtton은 한글형태
-        print(list(bus_stn_dict_13.keys()).index(clickedButton))
-        n = xml_index_num_13[list(bus_stn_dict_13.keys()).index(clickedButton)]
-        print("xml index = {}".format(n))
-        busList = bus(n, busStop, 13)
+        busStop, n = map(str, bus_stn_dict_13.get(clickedButton))
+        busList = bus(int(n), busStop, 13)
         bus01, bus02, tayo1, tayo2 = map(str, busList)
 
         return JsonResponse(
@@ -544,9 +544,8 @@ def message(request):
         )
 
     if clickedButton in bus_stn_dict_5513.keys():
-        busStop = bus_stn_dict_5513.get(clickedButton)
-        n = xml_index_num_5513[list(bus_stn_dict_5513.keys()).index(clickedButton)]
-        busList = bus(n, busStop, 5513)
+        busStop, n = map(str, bus_stn_dict_5513.get(clickedButton))
+        busList = bus(int(n), busStop, 5513)
         bus01, bus02 = map(str, busList)
         return JsonResponse(
             {
