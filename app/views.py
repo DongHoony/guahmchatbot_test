@@ -182,7 +182,7 @@ def keyboard(request):
 
 @csrf_exempt
 def message(request):
-    
+
     global bus_stn_setting_list
     json_str = (request.body).decode('utf-8')
     received_json = json.loads(json_str)
@@ -280,7 +280,7 @@ def message(request):
         c.execute("SELECT * FROM BusService WHERE user_key = ?", (bus_stn_setting_list[0],))
         print(c.fetchall())
         print("User route has been successfully created. ^ ")
-        
+
         return JsonResponse(
             {
                 'message': {
@@ -307,7 +307,7 @@ def message(request):
             }
         )
 # Setting user_key based route finished.
-    
+
     elif clickedButton == '구암고 급식안내':
         return JsonResponse(
             {
@@ -346,7 +346,18 @@ def message(request):
         c = bus_db.cursor()
         c.execute("SELECT * FROM BusService WHERE user_key = ?", (user_key,))
         school = c.fetchone()
-        print(school)
+        if not school:
+            return JsonResponse(
+                {
+                    'message': {
+                        'text': '내 등/하굣길이 설정돼 있지 않습니다. 초기화면에서 설정해 주세요.'
+                    },
+                    'keyboard': {
+                        'type': 'buttons',
+                        'buttons': ['구암고 급식안내', '내 등굣길', '내 하굣길', '등하교 버스안내', '등/하굣길 설정하기']
+                    }
+                }
+            )
         if school[1] == 13:
             n = [0, 1, 1, 2][numBusStop13.index(school[2])]
             busList = bus(n, school[2], 13)
@@ -398,6 +409,18 @@ def message(request):
         c = bus_db.cursor()
         c.execute("SELECT * FROM BusService WHERE user_key = ?", (user_key,))
         school = c.fetchone()
+        if not school:
+            return JsonResponse(
+                {
+                    'message': {
+                        'text': '내 등/하굣길이 설정돼 있지 않습니다. 초기화면에서 설정해 주세요.'
+                    },
+                    'keyboard': {
+                        'type': 'buttons',
+                        'buttons': ['구암고 급식안내', '내 등굣길', '내 하굣길', '등하교 버스안내', '등/하굣길 설정하기']
+                    }
+                }
+            )
         if school[1] == 13:
             busList = bus(1, school[3], 13)
             bus01, bus02, tayo1, tayo2 = map(str, busList)
