@@ -182,14 +182,13 @@ def keyboard(request):
 
 @csrf_exempt
 def message(request):
+    
     global bus_stn_setting_list
     json_str = (request.body).decode('utf-8')
     received_json = json.loads(json_str)
     clickedButton = received_json['content']
     user_key = received_json['user_key']
     print(user_key)
-
-
 
     if clickedButton == '초기화면':
         return JsonResponse(
@@ -204,6 +203,7 @@ def message(request):
             }
         )
 
+# Sets the user_key based route from below
     elif clickedButton == '등/하굣길 설정하기':
         if len(bus_stn_setting_list) != 0:
             bus_stn_setting_list = []
@@ -267,19 +267,19 @@ def message(request):
         bus_stn_setting_list.append(['21243','21244'][['벽산아파트방면 (설정)', '관악드림타운아파트방면 (설정)'].index(clickedButton)])
 
         c = bus_db.cursor()
-        
+
         c.execute("SELECT * FROM BusService WHERE user_key = ?", (bus_stn_setting_list[0],))
         if c.fetchall() != []:
             c.execute("DELETE FROM BusService WHERE user_key = ?", (bus_stn_setting_list[0],))
             print("This user already have the route, Deleting it ... ")
-            
+
         c.execute("INSERT INTO BusService VALUES (?, ?, ?, ?)",
                   (bus_stn_setting_list[0], bus_stn_setting_list[1], bus_stn_setting_list[2], bus_stn_setting_list[3]))
         bus_db.commit()
 
         c.execute("SELECT * FROM BusService WHERE user_key = ?", (bus_stn_setting_list[0],))
         print(c.fetchall())
-        print("User route successfully made. ^ ")
+        print("User route has been successfully created. ^ ")
         
         return JsonResponse(
             {
@@ -306,7 +306,8 @@ def message(request):
                 }
             }
         )
-
+# Setting user_key based route finished.
+    
     elif clickedButton == '구암고 급식안내':
         return JsonResponse(
             {
@@ -345,6 +346,7 @@ def message(request):
         c = bus_db.cursor()
         c.execute("SELECT * FROM BusService WHERE user_key = ?", (user_key,))
         school = c.fetchone()
+        print(school)
         if school[1] == 13:
             n = [0, 1, 1, 2][numBusStop13.index(school[2])]
             busList = bus(n, school[2], 13)
