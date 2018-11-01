@@ -100,8 +100,10 @@ def bus(n, busStn, busNo):
                 tayo2 = ''
             return [bus01, bus02, tayo1, tayo2]
 
-        elif busNo == 5513:
+        elif busNo in [5513, 1]:
             return [bus01, bus02]
+        
+        
 
 
 isRefreshed = 0
