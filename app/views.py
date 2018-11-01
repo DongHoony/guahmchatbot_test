@@ -511,7 +511,7 @@ def message(request):
 
     elif clickedButton in bus_stop_dict_13.keys():
         busStop = bus_stop_dict_13.get(clickedButton)
-        n = [0, 1, 1, 2][list(bus_stop_dict_13.values()).index(clickedButton)]
+        n = [0, 1, 1, 2][list(bus_stop_dict_13.keys()).index(clickedButton)]
         bus01, bus02, tayo1, tayo2 = map(str, bus(n, busStop, 13))
 
         return JsonResponse(
@@ -531,7 +531,7 @@ def message(request):
 
     elif clickedButton in bus_stop_dict_5513.keys():
         busStop = bus_stop_dict_5513.get(clickedButton)
-        n = [5, 1, 7, 2, 0][list(bus_stop_dict_5513.values()).index(clickedButton)]
+        n = [5, 1, 7, 2, 0][list(bus_stop_dict_5513.keys()).index(clickedButton)]
         bus01, bus02 = map(str, bus(n, busStop, 5513))
 
         return JsonResponse(
