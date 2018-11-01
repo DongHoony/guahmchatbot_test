@@ -368,7 +368,7 @@ def message(request):
                 }
             )
         if school[1] == 13:
-            n = xml_index_num_13[list(bus_stn_dict_13.keys()).index(school[2])]
+            n = xml_index_num_13[list(bus_stn_dict_13.values()).index(school[2])]
             busList = bus(n, school[2], 13)
             bus01, bus02, tayo1, tayo2 = map(str, busList)
             return JsonResponse(
@@ -386,7 +386,7 @@ def message(request):
                 }
             )
         else:
-            n = xml_index_num_5513[list(bus_stn_dict_5513.keys()).index(school[2])]
+            n = xml_index_num_5513[list(bus_stn_dict_5513.values()).index(school[2])]
             bus(n, school[2], 5513)
             busList = bus(n, school[2], 5513)
             bus01, bus02 = map(str, busList)
