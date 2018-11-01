@@ -23,7 +23,7 @@ import collections
 # numBusStop13 = ['21910', '20891', '20867', '20834']
 # numBusStop5513 = ['21130', '21252', '21131', '21236', '21247']
 
-bus_db = sqlite3.connect('bus_key.db',check_same_thread=False)
+bus_db = sqlite3.connect('bus_key.db',check_same_thread = False)
 
 try:
     c = bus_db.cursor()
@@ -39,17 +39,19 @@ except sqlite3.OperationalError:
 # BusStops, to Home
 homeBusStop13 = ['관악드림타운북문 방면 (동작13)', '벽산아파트 방면 (동작13)']
 homeBusStop5513 = ['관악드림타운북문 방면 (5513)', '벽산아파트 방면 (5513)']
-
+homeBusStop01 = ['관악드림타운북문 방면 (관악01)', '벽산아파트 방면 (관악01)']
 # Setting lines
 setting13 = ['벽산아파트 (설정)', '약수맨션 (설정)', '노량진역 (설정)', '대방역2번출구앞 (설정)']
 setting5513 = ['관악구청 (설정)', '서울대입구 (설정)', '봉천사거리, 봉천중앙시장 (설정)', '봉현초등학교 (설정)', '벽산블루밍벽산아파트303동앞 (설정)']
-setting01 = []
+setting01 = ['봉천역 (설정)', '두산아파트입구 (설정)', '현대시장 (설정)', '구암초등학교정문 (설정)', '성현동주민센터 (설정)', '구암어린이집앞 (설정)',
+             '숭실대입구역2번출구 (설정)', '봉천고개현대아파트 (설정)', '봉현초등학교_01 (설정)', '관악드림타운115동 (설정)']
 
 bus_stn_dict_13 = {'벽산아파트': ['21910',0 ],  '약수맨션': ['20891',1], '노량진역': ['20867',1], '대방역2번출구앞': ['20834',2]}
 
 bus_stn_dict_5513 = {'관악구청':['21130',5], '서울대입구': ['21252',1], '봉천사거리, 봉천중앙시장': ['21131',7], '봉현초등학교': ['21236',2], '벽산블루밍벽산아파트303동앞': ['21247',0]}
 
-bus_stn_dict_01 = {}
+bus_stn_dict_01 = {'봉천역': ['21508', 0], '두산아파트입구': ['21526', 0], '현대시장':['21536', 0], '구암초등학교정문': ['21545', 0], '성현동주민센터':['21565', 0], '구암어린이집앞': ['21575', 0],
+                   '숭실대입구역2번출구':['20810', 0], '봉천고개현대아파트':['20820', 0], '봉현초등학교_01': ['21236', 0], '관악드림타운115동': ['21239', 0]}
 
 
 # Meal table, index(0-4) => Mon-Fri
@@ -231,7 +233,7 @@ def message(request):
                 },
                 'keyboard': {
                     'type': 'buttons',
-                    'buttons': ['동작13 (설정)', '5513 (설정)']
+                    'buttons': ['관악01 (설정)', '동작13 (설정)', '5513 (설정)']
                 }
             }
         )
@@ -264,6 +266,35 @@ def message(request):
             }
         )
 
+    elif clickedButton == '관악01 (설정)':
+        bus_stn_setting_list.append(1)
+        return JsonResponse(
+            {
+                'message': {
+                    'text': 'Step 2 / 3: 등교 시 이용하는 버스정류장을 선택해 주세요.'
+                },
+                'keyboard': {
+                    'type': 'buttons',
+                    'buttons': ['봉천역 (설정)', '두산아파트입구 (설정)', '현대시장 (설정)', '구암초등학교정문 (설정)', '성현동주민센터 (설정)', '구암어린이집앞 (설정)',
+                                '숭실대입구역2번출구 (설정)', '봉천고개현대아파트 (설정)', '봉현초등학교_01 (설정)', '관악드림타운115동 (설정)']
+                }
+            }
+        )
+
+    elif clickedButton in setting01:
+        bus_stn_setting_list.append(bus_stn_dict_01.get(clickedButton.replace(' (설정)', ''))[0])
+        return JsonResponse(
+            {
+                'message': {
+                    'text': 'Step 3 / 3: 하교방향을 선택해 주세요.'
+                },
+                'keyboard': {
+                    'type': 'buttons',
+                    'buttons': ['벽산아파트방면 (설정)', '관악드림타운아파트방면 (설정)']
+                }
+            }
+        )
+    
     elif clickedButton in setting13:
         bus_stn_setting_list.append(bus_stn_dict_13.get(clickedButton.replace(' (설정)', ''))[0])
         return JsonResponse(
@@ -277,7 +308,21 @@ def message(request):
                 }
             }
         )
-
+    
+    elif clickedButton in setting5513:
+        bus_stn_setting_list.append(bus_stn_dict_5513.get(clickedButton.replace(' (설정)', ''))[0])
+        return JsonResponse(
+            {
+                'message': {
+                    'text': 'Step 3 / 3: 하교방향을 선택해 주세요.'
+                },
+                'keyboard': {
+                    'type': 'buttons',
+                    'buttons': ['벽산아파트방면 (설정)', '관악드림타운아파트방면 (설정)']
+                }
+            }
+        )
+    
     elif clickedButton in ['벽산아파트방면 (설정)', '관악드림타운아파트방면 (설정)']:
         bus_stn_setting_list.append(['21243','21244'][['벽산아파트방면 (설정)', '관악드림타운아파트방면 (설정)'].index(clickedButton)])
 
@@ -304,20 +349,6 @@ def message(request):
                 'keyboard': {
                     'type': 'buttons',
                     'buttons': ['초기화면']
-                }
-            }
-        )
-
-    elif clickedButton in setting5513:
-        bus_stn_setting_list.append(bus_stn_dict_5513.get(clickedButton.replace(' (설정)', ''))[0])
-        return JsonResponse(
-            {
-                'message': {
-                    'text': 'Step 3 / 3: 하교방향을 선택해 주세요.'
-                },
-                'keyboard': {
-                    'type': 'buttons',
-                    'buttons': ['벽산아파트방면 (설정)', '관악드림타운아파트방면 (설정)']
                 }
             }
         )
@@ -396,7 +427,7 @@ def message(request):
                     }
                 }
             )
-        else:
+        elif school[1] == 5513:
             for i in bus_stn_dict_5513.values():
                 if i[0] == school[2]:
                     n = i[1]
@@ -420,6 +451,32 @@ def message(request):
                     }
                 }
             )
+        #01
+        else:
+            for i in bus_stn_dict_01.values():
+                if i[0] == school[2]:
+                    n = i[1]
+                    break
+            bus(n, school[2], 1)
+            busList = bus(n, school[2], 1)
+            bus01, bus02 = map(str, busList)
+            return JsonResponse(
+                {
+                    'message': {
+                        'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n\n다음 🚌 : {}{}\n'.format(clickedButton, school[2], bus01,
+                                                                                      '도착 예정' if bus01 not in ['출발대기',
+                                                                                                               '운행종료'] else '',
+                                                                                      bus02,
+                                                                                      '도착 예정' if bus02 not in ['출발대기',
+                                                                                                               '운행종료'] else '')
+                    },
+                    'keyboard': {
+                        'type': 'buttons',
+                        'buttons': ['구암고 급식안내', '내 등굣길 버스안내', '내 하굣길 버스안내', '등하교 버스안내', '등/하굣길 설정하기', '도움말']
+                    }
+                }
+            )
+            
 
     elif clickedButton == '내 하굣길 버스안내':
         c = bus_db.cursor()
@@ -460,7 +517,7 @@ def message(request):
                     }
                 }
             )
-        else:
+        elif school[1] == 5513:
             busList = bus(2, school[3], 5513)
             bus01, bus02 = map(str, busList)
             return JsonResponse(
@@ -480,6 +537,27 @@ def message(request):
                     }
                 }
             )
+        else:
+            busList = bus(2, school[3], 1)
+            bus01, bus02 = map(str, busList)
+            return JsonResponse(
+                {
+                    'message': {
+                        'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n\n다음 🚌 : {}{}\n'.format(clickedButton, school[3], bus01,
+                                                                                      '도착 예정' if bus01 not in ['출발대기',
+                                                                                                               '운행종료'] else '',
+                                                                                      bus02,
+                                                                                      '도착 예정' if bus02 not in ['출발대기',
+                                                                                                               '운행종료'] else '')
+
+                    },
+                    'keyboard': {
+                        'type': 'buttons',
+                        'buttons': ['구암고 급식안내', '내 등굣길 버스안내', '내 하굣길 버스안내', '등하교 버스안내', '등/하굣길 설정하기', '도움말']
+                    }
+                }
+            )
+            
 
     elif clickedButton == '등하교 버스안내':
         return JsonResponse(
@@ -560,6 +638,24 @@ def message(request):
                 }
             }
         )
+    
+    if clickedButton in bus_stn_dict_01.keys():
+        busStop, n = map(str, bus_stn_dict_5513.get(clickedButton))
+        busList = bus(int(n), busStop, 1)
+        bus01, bus02 = map(str, busList)
+        return JsonResponse(
+            {
+                'message': {
+                    'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n\n다음 🚌 : {}{}\n'.format(clickedButton, busStop, bus01,
+                            '도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', bus02,
+                            '도착 예정' if bus02 not in ['출발대기', '운행종료'] else '')
+                },
+                'keyboard': {
+                    'type': 'buttons',
+                    'buttons': ['구암고 급식안내', '내 등굣길 버스안내', '내 하굣길 버스안내', '등하교 버스안내', '등/하굣길 설정하기', '도움말']
+                }
+            }
+        )
 
 # No need to touch below, Final
 
@@ -612,6 +708,25 @@ def message(request):
     elif clickedButton in homeBusStop5513:
         busStop = ['21244', '21243'][homeBusStop5513.index(clickedButton)]
         busList = bus(2, busStop, 5513)
+        bus01, bus02 = map(str, busList)
+        return JsonResponse(
+            {
+                'message': {
+                    'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n\n다음 🚌 : {}{}\n'.format(clickedButton, busStop, bus01,
+                            '도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', bus02,
+                            '도착 예정' if bus02 not in ['출발대기', '운행종료'] else '')
+
+                },
+                'keyboard': {
+                    'type': 'buttons',
+                    'buttons': ['구암고 급식안내', '내 등굣길 버스안내', '내 하굣길 버스안내', '등하교 버스안내', '등/하굣길 설정하기', '도움말']
+                }
+            }
+        )
+    
+    elif clickedButton in homeBusStop01:
+        busStop = ['21244', '21243'][homeBusStop01.index(clickedButton)]
+        busList = bus(2, busStop, 1)
         bus01, bus02 = map(str, busList)
         return JsonResponse(
             {
