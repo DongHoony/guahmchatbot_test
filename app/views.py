@@ -515,6 +515,9 @@ def message(request):
             }
         )
 
+    # bus_stn_dict_13 = {'벽산아파트': '21910', '약수맨션': '20891', '노량진역': '20867', '대방역2번출구앞': '20834'}
+    # xml_index_num_13 = [0, 1, 1, 2]
+
     if clickedButton in bus_stn_dict_13.keys():
         busStop = bus_stn_dict_13.get(clickedButton) # '12345' 형태, clickedButtton은 한글형태
         print(list(bus_stn_dict_13.keys()).index(clickedButton))
@@ -540,7 +543,7 @@ def message(request):
 
     if clickedButton in bus_stn_dict_5513.keys():
         busStop = bus_stn_dict_5513.get(clickedButton)
-        n = xml_index_num_5513[list(bus_stn_dict_13.keys()).index(clickedButton)]
+        n = xml_index_num_5513[list(bus_stn_dict_5513.keys()).index(clickedButton)]
         busList = bus(n, busStop, 5513)
         bus01, bus02 = map(str, busList)
         return JsonResponse(
