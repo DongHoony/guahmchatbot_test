@@ -511,6 +511,7 @@ def message(request):
         busStop = bus_stn_dict_13.get(clickedButton)
         n = xml_index_num_13[list(bus_stn_dict_13.keys()).index(clickedButton)]
         busList = bus(n, busStop, 13)    
+        print("xml index = {}".format(n))
         bus01, bus02, tayo1, tayo2 = map(str, busList)
         
         return JsonResponse(
