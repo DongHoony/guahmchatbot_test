@@ -12,7 +12,7 @@ import sqlite3
 # sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
 # sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
 
-bus_db = sqlite3.connect('bus_key.db',check_same_thread=False)
+bus_db = sqlite3.connect('bus_key.db', check_same_thread=False)
 
 try:
     c = bus_db.cursor()
@@ -21,6 +21,7 @@ try:
                 bus_num integer,
                 school_stn text,
                 home_stn text)""")
+    print("Table not found, Making new table as BusService...")
 except sqlite3.OperationalError:
     print("Table already exists, Skip making table...")
 
@@ -38,7 +39,12 @@ numBusStop5513 = ['21130', '21252', '21131', '21236', '21247']
 
 # Setting lines
 setting13 = ['벽산아파트 (설정)', '약수맨션 (설정)', '노량진역 (설정)', '대방역2번출구앞 (설정)']
-setting5513 = ['관악구청 (설정)', '서울대입구 (설정)', '봉천사거리 (설정)' , '봉천중앙시장 (설정)', '봉현초등학교 (설정)', '벽산블루밍벽산아파트303동앞 (설정)']
+setting5513 = ['관악구청 (설정)', '서울대입구 (설정)', '봉천사거리 (설정)', '봉천중앙시장 (설정)', '봉현초등학교 (설정)', '벽산블루밍벽산아파트303동앞 (설정)']
+
+# BusStops + BusStopValue Dict
+bus_stop_dict_13 = {'벽산아파트': '21910', '약수맨션': '20891', '노량진역': '20867', '대방역2번출구앞': '20834'}
+bus_stop_dict_5513 = {'관악구청': '21130', '서울대입구': '21252', '봉천사거리, 봉천중앙시장': '21131',
+                      '봉현초등학교': '21236', '벽산블루밍벽산아파트303동앞': '21247'}
 
 # Meal table, index(0-4) => Mon-Fri
 lunchfoods = []
@@ -505,10 +511,9 @@ def message(request):
         )
 
     elif clickedButton in schoolBusStop13:
-        busStop = numBusStop13[schoolBusStop13.index(clickedButton)]
-        n = [0, 1, 1, 2][schoolBusStop13.index(clickedButton)]
-        busList = bus(n, busStop, 13)
-        bus01, bus02, tayo1, tayo2 = map(str, busList)
+        busStop = bus_stop_dict_13.get(clickedButton)
+        n = [0, 1, 1, 2][list(bus_stop_dict_13.values()).index(clickedButton)]
+        bus01, bus02, tayo1, tayo2 = map(str, bus(n, busStop, 13))
 
         return JsonResponse(
             {
@@ -526,10 +531,9 @@ def message(request):
         )
 
     elif clickedButton in schoolBusStop5513:
-        busStop = numBusStop5513[schoolBusStop5513.index(clickedButton)]
-        n = [5, 1, 7, 2, 0][schoolBusStop5513.index(clickedButton)]
-        busList = bus(n, busStop, 5513)
-        bus01, bus02 = map(str, busList)
+        busStop = bus_stop_dict_5513.get(clickedButton)
+        n = [5, 1, 7, 2, 0][list(bus_stop_dict_5513.values()).index(clickedButton)]
+        bus01, bus02 = map(str, bus(n, busStop, 5513))
 
         return JsonResponse(
             {
