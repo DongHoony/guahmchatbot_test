@@ -152,8 +152,8 @@ def foodie(n):
                 else:
                     dish2 += _
 
-            lunchfoods.append(dish1)
-            dinnerfoods.append(dish2)
+            lunchfoods.append(dish1+'- ')
+            dinnerfoods.append(dish2+'- ')
 
         lunchfoods += ['메뉴가 없습니다.']*2
         dinnerfoods += ['메뉴가 없습니다.']*2
