@@ -61,6 +61,7 @@ dinner = []
 
 # n은 xml상에서 봤을 때 itemList 순서임, index이므로 0부터 시작.
 def bus(n, busStn, busNo):
+    print("Attempt to get the {}, {}, {} bus info...".format(n, busStn, busNo))
     url = 'http://ws.bus.go.kr/api/rest/stationinfo/getStationByUid?ServiceKey=fef2WSoMFkV557J%2BKKEe0LmP4Y1o8IsH6x4Lv4p0pArUHTs6sk6sHVGaNfkFZRM2sSUn5Uvw0JzETmEyk5VeoA%3D%3D&arsId=' + busStn
     print(n, busStn, busNo)
     request = ul.Request(url)
@@ -74,7 +75,7 @@ def bus(n, busStn, busNo):
         rDD = json.loads(rDJ)
         busrDD = rDD["ServiceResult"]["msgBody"]["itemList"]
 
-        if len(busrDD) > 30:
+        if len(busrDD) > 30 :
             bus01 = busrDD["arrmsg1"]
             bus02 = busrDD["arrmsg2"]
             id01 = busrDD["vehId1"]
