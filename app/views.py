@@ -205,10 +205,10 @@ def message(request):
         )
 
     elif clickedButton == '등/하굣길 설정하기':
-
         if len(bus_stn_setting_list) != 0:
             bus_stn_setting_list = []
             print("Setting list is not empty, Cleaning up...")
+        bus_stn_setting_list.append(user_key)
         return JsonResponse(
             {
                 'message': {
