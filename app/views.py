@@ -167,7 +167,7 @@ def foodie(n):
     if n == 'Sat' and isRefreshed == 1:
         isRefreshed = 0
 
-    return [dayList.index(n), m, d]
+    return [dayList.index(n), int(m), int(d)]
 
 
 def keyboard(request):
