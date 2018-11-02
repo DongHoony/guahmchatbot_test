@@ -388,7 +388,7 @@ def message(request):
         return JsonResponse(
             {
                 'message': {
-                    'text': '🍴 {}의 {}식단 🍴\n📜 {} / {} ({}) 📜\n{}'.format('오늘' if tmr == 0 else '내일','중식' if clickedButton == '중식' else '석식',
+                    'text': '🍴 {}의 {}식단 🍴\n📜 {} / {} ( {} ) 📜\n{}'.format('오늘' if tmr == 0 else '내일','중식' if clickedButton == '중식' else '석식',
                                              m , d if tmr == 0 else d+1,'월화수목금토일'[day],lunch[day] if clickedButton == '중식' else dinner[day])
                 },
                 'keyboard': {
@@ -426,7 +426,7 @@ def message(request):
             return JsonResponse(
                 {
                     'message': {
-                        'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n{}\n\n다음 🚌 : {}{}\n{}'.format(busStn, school[2], bus01,
+                        'text': '🚏 {} ( {} )\n\n이번 🚌 : {}{}\n{}\n\n다음 🚌 : {}{}\n{}'.format(busStn, school[2], bus01,
                                 ' 도착 예정' if bus01 not in ['출발대기','운행종료'] else '', tayo1, bus02,
                                 ' 도착 예정' if bus02 not in ['출발대기','운행종료'] else '', tayo2)
 
@@ -448,7 +448,7 @@ def message(request):
             return JsonResponse(
                 {
                     'message': {
-                        'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n\n다음 🚌 : {}{}\n'.format(busStn, school[2], bus01,
+                        'text': '🚏 {} ( {} )\n\n이번 🚌 : {}{}\n\n다음 🚌 : {}{}\n'.format(busStn, school[2], bus01,
                                 ' 도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', bus02,
                                 ' 도착 예정' if bus02 not in ['출발대기', '운행종료'] else '')
                     },
@@ -468,7 +468,7 @@ def message(request):
             return JsonResponse(
                 {
                     'message': {
-                        'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n\n다음 🚌 : {}{}\n'.format(busStn, school[2], bus01,
+                        'text': '🚏 {} ( {} )\n\n이번 🚌 : {}{}\n\n다음 🚌 : {}{}\n'.format(busStn, school[2], bus01,
                                 ' 도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', bus02,
                                 ' 도착 예정' if bus02 not in ['출발대기', '운행종료'] else '')
                     },
@@ -500,7 +500,7 @@ def message(request):
             return JsonResponse(
                 {
                     'message': {
-                        'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n{}\n\n다음 🚌 : {}{}\n{}'.format('구암중고등학교', school[3], bus01,
+                        'text': '🚏 {} ( {} )\n\n이번 🚌 : {}{}\n{}\n\n다음 🚌 : {}{}\n{}'.format('구암중고등학교', school[3], bus01,
                                 ' 도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', tayo1, bus02,
                                 ' 도착 예정' if bus02 not in ['출발대기', '운행종료'] else '', tayo2)
                     },
@@ -516,7 +516,7 @@ def message(request):
             return JsonResponse(
                 {
                     'message': {
-                        'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n\n다음 🚌 : {}{}\n'.format('구암중고등학교', school[3], bus01,
+                        'text': '🚏 {} ( {} )\n\n이번 🚌 : {}{}\n\n다음 🚌 : {}{}\n'.format('구암중고등학교', school[3], bus01,
                                 ' 도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', bus02,
                                 ' 도착 예정' if bus02 not in ['출발대기', '운행종료'] else '')
 
@@ -532,7 +532,7 @@ def message(request):
             return JsonResponse(
                 {
                     'message': {
-                        'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n\n다음 🚌 : {}{}\n'.format('구암중고등학교', school[3], bus01,
+                        'text': '🚏 {} ( {} )\n\n이번 🚌 : {}{}\n\n다음 🚌 : {}{}\n'.format('구암중고등학교', school[3], bus01,
                                 ' 도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', bus02,
                                 ' 도착 예정' if bus02 not in ['출발대기', '운행종료'] else '')
                     },
@@ -607,7 +607,7 @@ def message(request):
         return JsonResponse(
             {
                 'message': {
-                    'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n{}\n\n다음 🚌 : {}{}\n{}'.format(clickedButton, busStop, bus01,
+                    'text': '🚏 {} ( {} )\n\n이번 🚌 : {}{}\n{}\n\n다음 🚌 : {}{}\n{}'.format(clickedButton, busStop, bus01,
                             ' 도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', tayo1, bus02,
                             ' 도착 예정' if bus02 not in ['출발대기', '운행종료'] else '', tayo2)
 
@@ -626,7 +626,7 @@ def message(request):
         return JsonResponse(
             {
                 'message': {
-                    'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n\n다음 🚌 : {}{}\n'.format(clickedButton, busStop, bus01,
+                    'text': '🚏 {} ( {} )\n\n이번 🚌 : {}{}\n\n다음 🚌 : {}{}\n'.format(clickedButton, busStop, bus01,
                             ' 도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', bus02,
                             ' 도착 예정' if bus02 not in ['출발대기', '운행종료'] else '')
                 },
@@ -644,7 +644,7 @@ def message(request):
         return JsonResponse(
             {
                 'message': {
-                    'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n\n다음 🚌 : {}{}\n'.format(clickedButton, busStop, bus01,
+                    'text': '🚏 {} ( {} )\n\n이번 🚌 : {}{}\n\n다음 🚌 : {}{}\n'.format(clickedButton, busStop, bus01,
                             ' 도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', bus02,
                             ' 도착 예정' if bus02 not in ['출발대기', '운행종료'] else '')
                 },
@@ -705,7 +705,7 @@ def message(request):
         return JsonResponse(
             {
                 'message': {
-                    'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n{}\n\n다음 🚌 : {}{}\n{}'.format(clickedButton, busStop, bus01,
+                    'text': '🚏 {} ( {} )\n\n이번 🚌 : {}{}\n{}\n\n다음 🚌 : {}{}\n{}'.format(clickedButton, busStop, bus01,
                             ' 도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', tayo1, bus02,
                             ' 도착 예정' if bus02 not in ['출발대기', '운행종료'] else '', tayo2)
                 },
@@ -723,7 +723,7 @@ def message(request):
         return JsonResponse(
             {
                 'message': {
-                    'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n\n다음 🚌 : {}{}\n'.format(clickedButton, busStop, bus01,
+                    'text': '🚏 {} ( {} )\n\n이번 🚌 : {}{}\n\n다음 🚌 : {}{}\n'.format(clickedButton, busStop, bus01,
                             ' 도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', bus02,
                             ' 도착 예정' if bus02 not in ['출발대기', '운행종료'] else '')
 
@@ -742,7 +742,7 @@ def message(request):
         return JsonResponse(
             {
                 'message': {
-                    'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n\n다음 🚌 : {}{}\n'.format(clickedButton, busStop, bus01,
+                    'text': '🚏 {} ( {} )\n\n이번 🚌 : {}{}\n\n다음 🚌 : {}{}\n'.format(clickedButton, busStop, bus01,
                             ' 도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', bus02,
                             ' 도착 예정' if bus02 not in ['출발대기', '운행종료'] else '')
 
