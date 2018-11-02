@@ -5,6 +5,7 @@ import xmltodict
 import json
 import time as t
 import sqlite3
+import datetime as dt
 import collections
 
 # from django.shortcuts import render
@@ -124,13 +125,11 @@ bus_stn_setting_list = []
 
 def foodie(n):
     global isRefreshed, updatedtime, lunch, dinner
-    print("Attempting to access in Meal table, freshedrate = {}".format(isRefreshed))
-
-    s = list(str(t.localtime()).replace('time.struct_time(', '').replace(')', '').split(', '))
+    print("Attempting to access in Meal table, Updated = {}".format(['False', 'True'][isRefreshed]))
+    y, m, d = map(str, str(dt.datetime.now())[:10].split('-'))
+    # s = list(str(t.localtime()).replace('time.struct_time(', '').replace(')', '').split(', '))
     # 2018.10.29 형식
-    m = s[1].split('=')[1]
-    d = s[2].split('=')[1]
-    ymd = s[0].split('=')[1] + '.' + m + '.' + d
+    ymd = y + '.' + m + '.' + d
     currenttime = int(t.time())
     dayList = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
@@ -423,14 +422,14 @@ def message(request):
         if school[1] == 13:
             for i in bus_stn_dict_13.values():
                 if i[0] == school[2]:
-                    n = i[1]
+                    busStn, n = i[0], i[1]
                     break
             busList = bus(n, school[2], 13)
             bus01, bus02, tayo1, tayo2 = map(str, busList)
             return JsonResponse(
                 {
                     'message': {
-                        'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n{}\n\n다음 🚌 : {}{}\n{}'.format(clickedButton, school[2], bus01,
+                        'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n{}\n\n다음 🚌 : {}{}\n{}'.format(busStn, school[2], bus01,
                                 '도착 예정' if bus01 not in ['출발대기','운행종료'] else '', tayo1, bus02,
                                 '도착 예정' if bus02 not in ['출발대기','운행종료'] else '', tayo2)
 
@@ -444,7 +443,7 @@ def message(request):
         elif school[1] == 5513:
             for i in bus_stn_dict_5513.values():
                 if i[0] == school[2]:
-                    n = i[1]
+                    busStn, n = i[0], i[1]
                     break
             bus(n, school[2], 5513)
             busList = bus(n, school[2], 5513)
@@ -452,12 +451,9 @@ def message(request):
             return JsonResponse(
                 {
                     'message': {
-                        'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n\n다음 🚌 : {}{}\n'.format(clickedButton, school[2], bus01,
-                                                                                        '도착 예정' if bus01 not in ['출발대기',
-                                                                                                                 '운행종료'] else '',
-                                                                                        bus02,
-                                                                                        '도착 예정' if bus02 not in ['출발대기',
-                                                                                                                 '운행종료'] else '')
+                        'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n\n다음 🚌 : {}{}\n'.format(busStn, school[2], bus01,
+                                '도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', bus02,
+                                '도착 예정' if bus02 not in ['출발대기', '운행종료'] else '')
                     },
                     'keyboard': {
                         'type': 'buttons',
@@ -469,20 +465,15 @@ def message(request):
         else:
             for i in bus_stn_dict_01.values():
                 if i[0] == school[2]:
-                    n = i[1]
+                    busStn, n = i[0], i[1]
                     break
-            bus(n, school[2], 1)
-            busList = bus(n, school[2], 1)
-            bus01, bus02 = map(str, busList)
+            bus01, bus02 = map(str, bus(n, school[2], 1))
             return JsonResponse(
                 {
                     'message': {
-                        'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n\n다음 🚌 : {}{}\n'.format(clickedButton, school[2], bus01,
-                                                                                      '도착 예정' if bus01 not in ['출발대기',
-                                                                                                               '운행종료'] else '',
-                                                                                      bus02,
-                                                                                      '도착 예정' if bus02 not in ['출발대기',
-                                                                                                               '운행종료'] else '')
+                        'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n\n다음 🚌 : {}{}\n'.format(busStn, school[2], bus01,
+                                '도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', bus02,
+                                '도착 예정' if bus02 not in ['출발대기', '운행종료'] else '')
                     },
                     'keyboard': {
                         'type': 'buttons',
@@ -508,21 +499,13 @@ def message(request):
                 }
             )
         if school[1] == 13:
-            busList = bus(1, school[3], 13)
-            bus01, bus02, tayo1, tayo2 = map(str, busList)
+            bus01, bus02, tayo1, tayo2 = map(str, bus(1, school[3], 13))
             return JsonResponse(
                 {
                     'message': {
-                        'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n{}\n\n다음 🚌 : {}{}\n{}'.format(clickedButton, school[3],
-                                                                                              bus01,
-                                                                                              '도착 예정' if bus01 not in [
-                                                                                                  '출발대기',
-                                                                                                  '운행종료'] else '',
-                                                                                              tayo1, bus02,
-                                                                                              '도착 예정' if bus02 not in [
-                                                                                                  '출발대기',
-                                                                                                  '운행종료'] else '',
-                                                                                              tayo2)
+                        'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n{}\n\n다음 🚌 : {}{}\n{}'.format('구암중고등학교', school[3], bus01,
+                                '도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', tayo1, bus02,
+                                '도착 예정' if bus02 not in ['출발대기', '운행종료'] else '', tayo2)
                     },
                     'keyboard': {
                         'type': 'buttons',
@@ -536,12 +519,9 @@ def message(request):
             return JsonResponse(
                 {
                     'message': {
-                        'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n\n다음 🚌 : {}{}\n'.format(clickedButton, school[3], bus01,
-                                                                                        '도착 예정' if bus01 not in ['출발대기',
-                                                                                                                 '운행종료'] else '',
-                                                                                        bus02,
-                                                                                        '도착 예정' if bus02 not in ['출발대기',
-                                                                                                                 '운행종료'] else '')
+                        'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n\n다음 🚌 : {}{}\n'.format('구암중고등학교', school[3], bus01,
+                                '도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', bus02,
+                                '도착 예정' if bus02 not in ['출발대기', '운행종료'] else '')
 
                     },
                     'keyboard': {
@@ -551,18 +531,13 @@ def message(request):
                 }
             )
         else:
-            busList = bus(2, school[3], 1)
-            bus01, bus02 = map(str, busList)
+            bus01, bus02 = map(str, bus(2, school[3], 1))
             return JsonResponse(
                 {
                     'message': {
-                        'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n\n다음 🚌 : {}{}\n'.format(clickedButton, school[3], bus01,
-                                                                                      '도착 예정' if bus01 not in ['출발대기',
-                                                                                                               '운행종료'] else '',
-                                                                                      bus02,
-                                                                                      '도착 예정' if bus02 not in ['출발대기',
-                                                                                                               '운행종료'] else '')
-
+                        'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n\n다음 🚌 : {}{}\n'.format('구암중고등학교', school[3], bus01,
+                                '도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', bus02,
+                                '도착 예정' if bus02 not in ['출발대기', '운행종료'] else '')
                     },
                     'keyboard': {
                         'type': 'buttons',
@@ -626,8 +601,6 @@ def message(request):
                 }
             }
         )
-    # bus_stn_dict_13 = {'벽산아파트': '21910', '약수맨션': '20891', '노량진역': '20867', '대방역2번출구앞': '20834'}
-    # xml_index_num_13 = [0, 1, 1, 2]
 
     if clickedButton in bus_stn_dict_13.keys():
         busStop, n = map(str, bus_stn_dict_13.get(clickedButton))
@@ -728,7 +701,6 @@ def message(request):
             }
         )
 
-
     elif clickedButton in homeBusStop13:
         busStop = ['21244', '21243'][homeBusStop13.index(clickedButton)]
         busList = bus(1, busStop, 13)
@@ -792,7 +764,7 @@ def message(request):
                     'text': "안녕하세요! 구암고등학교 급식 및 버스정보를 알려주는 알렉스봇입니다 :)\n"
                             "원하시는 메뉴 중 하나를 골라 정보를 열람하시면 됩니다.\n"
                             "오류나 추가 요구사항은 관리자에게 문의하거나 오픈채팅을 통해 부탁드립니다. 언제든 환영입니다.\n"
-                            "자신이 등하교하는 정류장이 존재하지 않는다면, 주저하지 마시고 문의해 주세요! 추가해 드립니다.\n"
+                            "자신이 등하교하는 정류장이 존재하지 않는다면 문의 부탁드립니다다\n"
                             "\n============\n\n"
                             "자료제공 : 서울특별시교육청, 서울특별시버스정보시스템\n"
                             "플러스친구 개발 : 구암고등학교 30221 이동훈\n"
