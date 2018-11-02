@@ -358,7 +358,7 @@ def message(request):
         return JsonResponse(
             {
                 'message': {
-                    'text': '설정되었습니다. 이제 간편하게 내 등하굣길을 이용하실 수 있습니다.'
+                    'text': '설정되었습니다. 이제 간편하게 내 등하굣길 버스안내를 이용하실 수 있습니다.'
                 },
                 'keyboard': {
                     'type': 'buttons',
