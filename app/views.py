@@ -6,7 +6,6 @@ import json
 import time as t
 import sqlite3
 import datetime as dt
-import collections
 
 # from django.shortcuts import render
 # import sys
@@ -24,7 +23,7 @@ import collections
 # numBusStop13 = ['21910', '20891', '20867', '20834']
 # numBusStop5513 = ['21130', '21252', '21131', '21236', '21247']
 
-bus_db = sqlite3.connect('bus_key.db',check_same_thread = False)
+bus_db = sqlite3.connect('bus_key.db',check_same_thread=False)
 
 try:
     c = bus_db.cursor()
@@ -113,8 +112,6 @@ def bus(n, busStn, busNo):
 
         elif busNo in [5513, 1]:
             return [bus01, bus02]
-
-
 
 
 isRefreshed = 0
@@ -430,8 +427,8 @@ def message(request):
                 {
                     'message': {
                         'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n{}\n\n다음 🚌 : {}{}\n{}'.format(busStn, school[2], bus01,
-                                '도착 예정' if bus01 not in ['출발대기','운행종료'] else '', tayo1, bus02,
-                                '도착 예정' if bus02 not in ['출발대기','운행종료'] else '', tayo2)
+                                ' 도착 예정' if bus01 not in ['출발대기','운행종료'] else '', tayo1, bus02,
+                                ' 도착 예정' if bus02 not in ['출발대기','운행종료'] else '', tayo2)
 
                     },
                     'keyboard': {
@@ -452,8 +449,8 @@ def message(request):
                 {
                     'message': {
                         'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n\n다음 🚌 : {}{}\n'.format(busStn, school[2], bus01,
-                                '도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', bus02,
-                                '도착 예정' if bus02 not in ['출발대기', '운행종료'] else '')
+                                ' 도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', bus02,
+                                ' 도착 예정' if bus02 not in ['출발대기', '운행종료'] else '')
                     },
                     'keyboard': {
                         'type': 'buttons',
@@ -472,8 +469,8 @@ def message(request):
                 {
                     'message': {
                         'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n\n다음 🚌 : {}{}\n'.format(busStn, school[2], bus01,
-                                '도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', bus02,
-                                '도착 예정' if bus02 not in ['출발대기', '운행종료'] else '')
+                                ' 도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', bus02,
+                                ' 도착 예정' if bus02 not in ['출발대기', '운행종료'] else '')
                     },
                     'keyboard': {
                         'type': 'buttons',
@@ -504,8 +501,8 @@ def message(request):
                 {
                     'message': {
                         'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n{}\n\n다음 🚌 : {}{}\n{}'.format('구암중고등학교', school[3], bus01,
-                                '도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', tayo1, bus02,
-                                '도착 예정' if bus02 not in ['출발대기', '운행종료'] else '', tayo2)
+                                ' 도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', tayo1, bus02,
+                                ' 도착 예정' if bus02 not in ['출발대기', '운행종료'] else '', tayo2)
                     },
                     'keyboard': {
                         'type': 'buttons',
@@ -520,8 +517,8 @@ def message(request):
                 {
                     'message': {
                         'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n\n다음 🚌 : {}{}\n'.format('구암중고등학교', school[3], bus01,
-                                '도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', bus02,
-                                '도착 예정' if bus02 not in ['출발대기', '운행종료'] else '')
+                                ' 도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', bus02,
+                                ' 도착 예정' if bus02 not in ['출발대기', '운행종료'] else '')
 
                     },
                     'keyboard': {
@@ -536,8 +533,8 @@ def message(request):
                 {
                     'message': {
                         'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n\n다음 🚌 : {}{}\n'.format('구암중고등학교', school[3], bus01,
-                                '도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', bus02,
-                                '도착 예정' if bus02 not in ['출발대기', '운행종료'] else '')
+                                ' 도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', bus02,
+                                ' 도착 예정' if bus02 not in ['출발대기', '운행종료'] else '')
                     },
                     'keyboard': {
                         'type': 'buttons',
@@ -611,8 +608,8 @@ def message(request):
             {
                 'message': {
                     'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n{}\n\n다음 🚌 : {}{}\n{}'.format(clickedButton, busStop, bus01,
-                            '도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', tayo1, bus02,
-                            '도착 예정' if bus02 not in ['출발대기', '운행종료'] else '', tayo2)
+                            ' 도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', tayo1, bus02,
+                            ' 도착 예정' if bus02 not in ['출발대기', '운행종료'] else '', tayo2)
 
                 },
                 'keyboard': {
@@ -630,8 +627,8 @@ def message(request):
             {
                 'message': {
                     'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n\n다음 🚌 : {}{}\n'.format(clickedButton, busStop, bus01,
-                            '도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', bus02,
-                            '도착 예정' if bus02 not in ['출발대기', '운행종료'] else '')
+                            ' 도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', bus02,
+                            ' 도착 예정' if bus02 not in ['출발대기', '운행종료'] else '')
                 },
                 'keyboard': {
                     'type': 'buttons',
@@ -648,8 +645,8 @@ def message(request):
             {
                 'message': {
                     'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n\n다음 🚌 : {}{}\n'.format(clickedButton, busStop, bus01,
-                            '도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', bus02,
-                            '도착 예정' if bus02 not in ['출발대기', '운행종료'] else '')
+                            ' 도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', bus02,
+                            ' 도착 예정' if bus02 not in ['출발대기', '운행종료'] else '')
                 },
                 'keyboard': {
                     'type': 'buttons',
@@ -709,8 +706,8 @@ def message(request):
             {
                 'message': {
                     'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n{}\n\n다음 🚌 : {}{}\n{}'.format(clickedButton, busStop, bus01,
-                            '도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', tayo1, bus02,
-                            '도착 예정' if bus02 not in ['출발대기', '운행종료'] else '', tayo2)
+                            ' 도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', tayo1, bus02,
+                            ' 도착 예정' if bus02 not in ['출발대기', '운행종료'] else '', tayo2)
                 },
                 'keyboard': {
                     'type': 'buttons',
@@ -727,8 +724,8 @@ def message(request):
             {
                 'message': {
                     'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n\n다음 🚌 : {}{}\n'.format(clickedButton, busStop, bus01,
-                            '도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', bus02,
-                            '도착 예정' if bus02 not in ['출발대기', '운행종료'] else '')
+                            ' 도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', bus02,
+                            ' 도착 예정' if bus02 not in ['출발대기', '운행종료'] else '')
 
                 },
                 'keyboard': {
@@ -746,8 +743,8 @@ def message(request):
             {
                 'message': {
                     'text': '🚏 {} ({})\n\n이번 🚌 : {}{}\n\n다음 🚌 : {}{}\n'.format(clickedButton, busStop, bus01,
-                            '도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', bus02,
-                            '도착 예정' if bus02 not in ['출발대기', '운행종료'] else '')
+                            ' 도착 예정' if bus01 not in ['출발대기', '운행종료'] else '', bus02,
+                            ' 도착 예정' if bus02 not in ['출발대기', '운행종료'] else '')
 
                 },
                 'keyboard': {
