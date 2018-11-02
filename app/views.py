@@ -358,11 +358,11 @@ def message(request):
         return JsonResponse(
             {
                 'message': {
-                    'text': '설정되었습니다.'
+                    'text': '설정되었습니다. 이제 간편하게 내 등하굣길을 이용하실 수 있습니다.'
                 },
                 'keyboard': {
                     'type': 'buttons',
-                    'buttons': ['초기화면']
+                    'buttons': ['구암고 급식안내', '내 등굣길 버스안내', '내 하굣길 버스안내', '등하교 버스안내', '내 등하굣길 설정하기', '도움말']
                 }
             }
         )
