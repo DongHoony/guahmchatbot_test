@@ -420,9 +420,9 @@ def message(request):
 
 
         if school[1] == 13:
-            for i in bus_stn_dict_13.values():
-                if i[0] == school[2]:
-                    busStn, n = i[0], i[1]
+            for stn_name, stn_list in bus_stn_dict_13.items():
+                if stn_list[0] == school[2]:
+                    busStn, n = stn_name, stn_list[1]
                     break
             busList = bus(n, school[2], 13)
             bus01, bus02, tayo1, tayo2 = map(str, busList)
@@ -441,9 +441,9 @@ def message(request):
                 }
             )
         elif school[1] == 5513:
-            for i in bus_stn_dict_5513.values():
-                if i[0] == school[2]:
-                    busStn, n = i[0], i[1]
+            for stn_name, stn_list in bus_stn_dict_5513.items():
+                if stn_list[0] == school[2]:
+                    busStn, n = stn_name, stn_list[1]
                     break
             bus(n, school[2], 5513)
             busList = bus(n, school[2], 5513)
@@ -463,9 +463,9 @@ def message(request):
             )
         #01
         else:
-            for i in bus_stn_dict_01.values():
-                if i[0] == school[2]:
-                    busStn, n = i[0], i[1]
+            for stn_name, stn_list in bus_stn_dict_01.items():
+                if stn_list[0] == school[2]:
+                    busStn, n = stn_name, stn_list[1]
                     break
             bus01, bus02 = map(str, bus(n, school[2], 1))
             return JsonResponse(
