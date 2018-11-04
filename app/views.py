@@ -384,7 +384,10 @@ def message(request):
         print("User {} is trying to get meal task".format(user_key))
         if int(str(t.ctime())[11:13]) > 16:  # 5시가 지나면 내일 밥을 보여준다
             tmr = 1
-            day += 1
+            if day < 6:
+                day += 1
+            else:
+                day = 0
         return JsonResponse(
             {
                 'message': {
