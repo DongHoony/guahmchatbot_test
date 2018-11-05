@@ -7,7 +7,24 @@ import time as t
 import sqlite3
 import datetime as dt
 
+# from django.shortcuts import render
+# import sys
+# import io
+# sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
+# sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
+
+# Dump codes
+
+# BusStops, to School
+# schoolBusStop13 = ['벽산아파트', '약수맨션', '노량진역', '대방역2번출구앞']
+# schoolBusStop5513 = ['관악구청', '서울대입구', '봉천사거리, 봉천중앙시장', '봉현초등학교', '벽산블루밍벽산아파트303동앞']
+
+# BusStop values, to School
+# numBusStop13 = ['21910', '20891', '20867', '20834']
+# numBusStop5513 = ['21130', '21252', '21131', '21236', '21247']
+
 bus_db = sqlite3.connect('bus_key.db',check_same_thread=False)
+
 try:
     c = bus_db.cursor()
     c.execute("""CREATE TABLE BusService (
@@ -17,6 +34,7 @@ try:
                 home_stn text)""")
 except sqlite3.OperationalError:
     print("Table already exists, Skip making table...")
+
 
 # BusStops, to Home
 homeBusStop13 = ['관악드림타운북문 방면 (동작13)', '벽산아파트 방면 (동작13)']
@@ -44,9 +62,11 @@ bus_stn_dict_01 = {'봉천역': ['21508', 0], '두산아파트입구': ['21526',
                    '성현동주민센터': ['21565', 0], '구암어린이집앞': ['21575', 0], '숭실대입구역2번출구': ['20810', 0],
                    '봉천고개현대아파트': ['20820', 0], '봉현초등학교_01': ['21236', 0], '관악드림타운115동': ['21239', 0]}
 
+
 # Meal table, index(0-4) => Mon-Fri
 lunch = []
 dinner = []
+
 
 # n은 xml상에서 봤을 때 itemList 순서임, index이므로 0부터 시작.
 def bus(n, busStn, busNo):
@@ -99,11 +119,12 @@ updatedtime = 0
 bus_stn_setting_list = []
 isSetting = False
 settingTime = 0
-y, m, d = map(str, str(dt.datetime.now())[:10].split('-'))
 
 def foodie(n):
-    global isRefreshed, updatedtime, lunch, dinner, y, m, d
+    global isRefreshed, updatedtime, lunch, dinner
     print("Attempting to access in Meal table, Updated = {}".format(['False', 'True'][isRefreshed]))
+    y, m, d = map(str, str(dt.datetime.now())[:10].split('-'))
+    # s = list(str(t.localtime()).replace('time.struct_time(', '').replace(')', '').split(', '))
     # 2018.10.29 형식
     ymd = y + '.' + m + '.' + d
     currenttime = int(t.time())
@@ -114,7 +135,9 @@ def foodie(n):
     # 또, 방학이나 공휴일처럼 평일이지만 배식하지 않는 경우를 추가해줘야 함.
 
     if ((currenttime - updatedtime) > 500000 and isRefreshed == 0) or lunch == []:
+        # print함수는 서버 내의 consol log에 기록
         print('Empty Food task, Building up...')
+
         from bs4 import BeautifulSoup
         import requests
 
@@ -165,6 +188,7 @@ def foodie(n):
     # 토요일에 리프레시 0으로 맞춰주자
     if n == 'Sat' and isRefreshed == 1:
         isRefreshed = 0
+
     return [str(dayList.index(n)), m, d]
 
 
@@ -186,7 +210,6 @@ def message(request):
     received_json = json.loads(json_str)
     clickedButton = received_json['content']
     user_key = received_json['user_key']
-
     if clickedButton == '초기화면':
         print("User {} pushed '초기화면'".format(user_key))
         return JsonResponse(
@@ -206,7 +229,7 @@ def message(request):
         if not isSetting or t.time() - settingTime > 20:
             isSetting = True
             settingTime = t.time()
-            if bus_stn_setting_list:
+            if len(bus_stn_setting_list) != 0:
                 bus_stn_setting_list = []
                 print("Setting list is not empty, Cleaning up...")
             bus_stn_setting_list.append(user_key)
@@ -225,7 +248,7 @@ def message(request):
             return JsonResponse(
                 {
                     'message': {
-                        'text': '현재 설정 중인 사용자가 있습니다. 잠시 후 다시 시도해 주세요. (최대 20초)'
+                        'text': '현재 설정 중인 사용자가 있습니다. 잠시 후 다시 시도해 주세요.'
                     },
                     'keyboard': {
                         'type': 'buttons',
@@ -367,16 +390,8 @@ def message(request):
 
     elif clickedButton in ['중식', '석식']:
         tmr = 0
-        day, m, d = map(int, foodie(str(t.ctime())[:3]))
-        try:
-            yoil = '월화수목금토일'[dt.date(y, m, d).weekday()]
-        except ValueError:
-            if m == 12:
-                m = 1
-            else:
-                m += 1
-            d = 1
-            yoil = '월화수목금토일'[dt.date(int(y), m, d).weekday()]
+        flist = foodie(str(t.ctime())[:3])
+        day, m, d = map(int, flist)
         print("User {} is trying to get meal task".format(user_key))
         if int(str(t.ctime())[11:13]) > 16:  # 5시가 지나면 내일 밥을 보여준다
             tmr = 1
@@ -384,8 +399,8 @@ def message(request):
         return JsonResponse(
             {
                 'message': {
-                    'text': '🍴 {}의 {}식단 🍴\n📜 {} / {} ( {} ) 📜\n{}'.format('오늘' if tmr == 0 else '내일', '중식' if clickedButton == '중식' else '석식',
-                                                                                 m, d, yoil, lunch[day] if clickedButton == '중식' else dinner[day])
+                    'text': '🍴 {}의 {}식단 🍴\n📜 {} / {} ( {} ) 📜\n{}'.format('오늘' if tmr == 0 else '내일','중식' if clickedButton == '중식' else '석식',
+                                             m , d if tmr == 0 else d+1,'월화수목금토일'[day],lunch[day] if clickedButton == '중식' else dinner[day])
                 },
                 'keyboard': {
                     'type': 'buttons',
