@@ -361,7 +361,7 @@ def message(request):
         c.execute("SELECT * FROM BusService WHERE user_key = ?", (bus_stn_setting_list[0],))
         print(c.fetchall())
         print("User route has been successfully created. ^ ")
-
+        isSetting = False
         return JsonResponse(
             {
                 'message': {
