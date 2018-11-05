@@ -116,9 +116,9 @@ def bus(n, busStn, busNo):
 
 isRefreshed = 0
 updatedtime = 0
-setting_task_time = 0
 bus_stn_setting_list = []
-
+isSetting = False
+settingTime = 0
 
 def foodie(n):
     global isRefreshed, updatedtime, lunch, dinner
@@ -194,26 +194,22 @@ def foodie(n):
 
 def keyboard(request):
     return JsonResponse(
-
         {
             'type': 'buttons',
 
             'buttons': ['구암고 급식안내', '내 등굣길 버스안내', '내 하굣길 버스안내', '등하교 버스안내', '내 등하굣길 설정하기', '도움말']
-
         }
-
     )
 
 
 @csrf_exempt
 def message(request):
 
-    global bus_stn_setting_list, bus_stn_dict_13, bus_stn_dict_5513, bus_stn_dict_01
+    global bus_stn_setting_list, bus_stn_dict_13, bus_stn_dict_5513, bus_stn_dict_01, isSetting, settingTime
     json_str = (request.body).decode('utf-8')
     received_json = json.loads(json_str)
     clickedButton = received_json['content']
     user_key = received_json['user_key']
-
     if clickedButton == '초기화면':
         print("User {} pushed '초기화면'".format(user_key))
         return JsonResponse(
@@ -228,23 +224,38 @@ def message(request):
             }
         )
 
-# Sets the user_key based route from below
+# Sets up the user_key based route from below
     elif clickedButton == '내 등하굣길 설정하기':
-        if len(bus_stn_setting_list) != 0:
-            bus_stn_setting_list = []
-            print("Setting list is not empty, Cleaning up...")
-        bus_stn_setting_list.append(user_key)
-        return JsonResponse(
-            {
-                'message': {
-                    'text': 'Step 1 / 3: 버스를 선택해 주세요.'
-                },
-                'keyboard': {
-                    'type': 'buttons',
-                    'buttons': ['관악01 (설정)', '동작13 (설정)', '5513 (설정)']
+        if not isSetting or t.time() - settingTime > 20:
+            isSetting = True
+            settingTime = t.time()
+            if len(bus_stn_setting_list) != 0:
+                bus_stn_setting_list = []
+                print("Setting list is not empty, Cleaning up...")
+            bus_stn_setting_list.append(user_key)
+            return JsonResponse(
+                {
+                    'message': {
+                        'text': 'Step 1 / 3: 버스를 선택해 주세요.'
+                    },
+                    'keyboard': {
+                        'type': 'buttons',
+                        'buttons': ['관악01 (설정)', '동작13 (설정)', '5513 (설정)']
+                    }
                 }
-            }
-        )
+            )
+        else:
+            return JsonResponse(
+                {
+                    'message': {
+                        'text': '현재 설정 중인 사용자가 있습니다. 잠시 후 다시 시도해 주세요.'
+                    },
+                    'keyboard': {
+                        'type': 'buttons',
+                        'buttons': ['구암고 급식안내', '내 등굣길 버스안내', '내 하굣길 버스안내', '등하교 버스안내', '내 등하굣길 설정하기', '도움말']
+                    }
+                }
+            )
 
     elif clickedButton == '동작13 (설정)':
         bus_stn_setting_list.append(13)
@@ -384,10 +395,7 @@ def message(request):
         print("User {} is trying to get meal task".format(user_key))
         if int(str(t.ctime())[11:13]) > 16:  # 5시가 지나면 내일 밥을 보여준다
             tmr = 1
-            if day < 6:
-                day += 1
-            else:
-                day = 0
+            day += 1
         return JsonResponse(
             {
                 'message': {
