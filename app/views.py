@@ -101,7 +101,7 @@ def bus(n, busStn, busNo):
 
         # 동작13과 5513의 리턴값이 다르다, 타요버스가 없으니까 타요 제외.
         if busNo == 13:
-            tayoList = ['57', '58', '92', '95']
+            tayoList = ['24', '57', '58', '92', '95']
             tayo1 = '이번 버스는 타요차량입니다.' if id01[-2:] in tayoList else '이번 버스는 일반차량입니다.'
             tayo2 = '다음 버스는 타요차량입니다.' if id02[-2:] in tayoList else '다음 버스는 일반차량입니다.'
             if bus01 in ['출발대기', '운행종료']:
