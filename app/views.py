@@ -96,7 +96,8 @@ def bus(n, busStn, busNo):
             id02 = busrDD[n]["vehId2"]
 
         bus01 = '곧' if bus01 == '곧 도착' else bus01
-        bus01 = bus01.replace('분', '분 ').replace('초후', '초 후 ').replace('번째', ' 정류장').replace('0 정류장 전', '전 정류장 출발')
+        bus01 = bus01.replace('분', '분 ').replace('초후', '초 후 ').replace('번째', ' 정류장')
+        bus01 = '전 정류장 출발' if bus01 == '0 정류장 전' else bus01
         bus02 = bus02.replace('분', '분 ').replace('초후', '초 후 ').replace('번째', ' 정류장')
 
         # 동작13과 5513의 리턴값이 다르다, 타요버스가 없으니까 타요 제외.
