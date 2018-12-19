@@ -157,8 +157,8 @@ def foodie(n):
         td1 = tr1[2].find_all('td')
         tr2 = html2.find_all('tr')
         td2 = tr2[2].find_all('td')
-        td1 = [None for i in range(7)] if td1 == [] else td1
-        td2 = [None for i in range(7)] if td2 == [] else td2
+        td1 = ["급식이 없습니다.\n" for i in range(7)] if td1 == [] else td1
+        td2 = ["급식이 없습니다.\n" for i in range(7)] if td2 == [] else td2
         
         for i in range(1, 6):
             td1[i] = str(td1[i])
