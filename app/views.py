@@ -144,10 +144,10 @@ def foodie(n):
 
         # 중식 r1, 석식 r2
         r1 = requests.get(
-            "https://stu.sen.go.kr/sts_sci_md01_001.do?"
+            "http://stu.sen.go.kr/sts_sci_md01_001.do?"
             "schulCode=B100005528&schMmealScCode=2&schulCrseScCode=4&schYmd=" + ymd)
         r2 = requests.get(
-            "https://stu.sen.go.kr/sts_sci_md01_001.do?"
+            "http://stu.sen.go.kr/sts_sci_md01_001.do?"
             "schulCode=B100005528&schMmealScCode=3&schulCrseScCode=4&schYmd=" + ymd)
         c1 = r1.content
         c2 = r2.content
