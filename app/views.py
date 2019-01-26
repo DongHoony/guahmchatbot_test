@@ -826,7 +826,9 @@ def message(request):
                             "\n============\n\n"
                             "자료제공 : 서울특별시교육청, 서울특별시버스정보시스템\n"
                             "플러스친구 개발 : 구암고등학교 2018학년도 졸업, 건국대학교 컴퓨터공학과 '19 이동훈 \n"
+                            "Github : https://github.com/donghoony/guahmchatbot\n"
                             "이용해 주셔서 고맙습니다 :)"
+                            
                 },
 
 
