@@ -1,4 +1,4 @@
-# guahmchatbot
-2018년 구암고등학교의 급식 / 버스 정보 안내를 위해 만들어진 챗봇 소스입니다.
+# guahmchatbot_TEST
+2019 새로운 챗봇 iBuilder Beta를 위해 개발 중에 있습니다.
 
 2018학년도 졸업생 / KKU '19 이동훈
